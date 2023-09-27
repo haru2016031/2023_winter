@@ -8,15 +8,17 @@ public class Player : MonoBehaviour
     public float jumpForce = 10.0f; // ジャンプ力
 
     private bool isGrounded = true; // 地面に接地しているかどうかを示すフラグ
-    private Rigidbody pRigid;
-    private Transform pTrans;
-    private Vector3 defPos;
+    private Rigidbody pRigid;       //プレイヤーのrigidbody
+    private Transform pTrans;       //プレイヤーのtransform
+    private Vector3 defPos;         //初期座標
+    private Vector3 checkPPos;      //保持しているチェックポイント座標
 
     void Start()
     {
         pRigid = GetComponent<Rigidbody>();
         pTrans = GetComponent<Transform>();
         defPos = pTrans.position;
+        checkPPos = defPos;
     }
 
     // Update is called once per frame
@@ -72,13 +74,24 @@ public class Player : MonoBehaviour
         {
             isGrounded = true;
         }
+
+    }
+
+    private void OnTriggerEnter(Collider collision)
+    {
+        // 衝突したオブジェクトがチェックポイントである場合
+        if (collision.gameObject.CompareTag("CheckPointCollider"))
+        {
+            //現在地点を保持
+            checkPPos = pTrans.position;
+        }
     }
 
     void Dead()
     {
         if(pTrans.position.y <= -20.0f)
         {
-            pTrans.position = defPos;  
+            pTrans.position = checkPPos;  
         }
     }
 }
