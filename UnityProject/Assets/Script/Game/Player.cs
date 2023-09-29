@@ -4,14 +4,21 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public float moveSpeed = 1.0f;  //ˆÚ“®‘¬“x
-    public float jumpForce = 10.0f; // ƒWƒƒƒ“ƒv—Í
+    public float moveSpeed = 1.0f;  //ï¿½Ú“ï¿½ï¿½ï¿½ï¿½x
+    public float jumpForce = 10.0f; // ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½
 
-    private bool isGrounded = true; // ’n–Ê‚ÉÚ’n‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ¦‚·ƒtƒ‰ƒO
-    private Rigidbody pRigid;       //ƒvƒŒƒCƒ„[‚Ìrigidbody
-    private Transform pTrans;       //ƒvƒŒƒCƒ„[‚Ìtransform
-    private Vector3 defPos;         //‰ŠúÀ•W
-    private Vector3 checkPPos;      //•Û‚µ‚Ä‚¢‚éƒ`ƒFƒbƒNƒ|ƒCƒ“ƒgÀ•W
+    private bool isGrounded = true; // ï¿½nï¿½Ê‚ÉÚ’nï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½O
+    private Rigidbody pRigid;       //ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½ï¿½rigidbody
+    private Transform pTrans;       //ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½ï¿½transform
+    private Vector3 defPos;         //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½W
+    private Vector3 checkPPos;      //ï¿½Ûï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½Nï¿½|ï¿½Cï¿½ï¿½ï¿½gï¿½ï¿½ï¿½W
+
+    // ï¿½Eï¿½ï¿½ï¿½gï¿½ï¿½ï¿½nï¿½ï¿½ï¿½h
+    private GameObject selectObject = null;
+    private const string holdTag = "Hold";
+
+    private float objectDepth = 10.0f;
+    private bool isDrag = false;
 
     void Start()
     {
@@ -23,68 +30,66 @@ public class Player : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-
     {
         //CameraMove();
         Move();
 
         Dead();
 
+        Ultrahand();
+
         if (isGrounded && Input.GetButtonDown("Jump"))
         {
-            // ƒWƒƒƒ“ƒvƒAƒNƒVƒ‡ƒ“‚ğÀs
+            // ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½vï¿½Aï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½s
             Jump();
         }
     }
 
-    //‘OŒã¶‰EˆÚ“®
+    //ï¿½Oï¿½ã¶ï¿½Eï¿½Ú“ï¿½
     void Move()
     {
-        // WASDƒL[‚Ì“ü—Í‚ğæ“¾
+        // WASDï¿½Lï¿½[ï¿½Ì“ï¿½ï¿½Í‚ï¿½ï¿½æ“¾
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
-        // ƒJƒƒ‰‚Ì•ûŒü‚©‚çAX-Z•½–Ê‚Ì’PˆÊƒxƒNƒgƒ‹‚ğæ“¾
+        // ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½AX-Zï¿½ï¿½ï¿½Ê‚Ì’Pï¿½Êƒxï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
         Vector3 cameraForward = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
 
-        // •ûŒüƒL[‚Ì“ü—Í’l‚ÆƒJƒƒ‰‚ÌŒü‚«‚©‚çAˆÚ“®•ûŒü‚ğŒˆ’è
+        // ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½[ï¿½Ì“ï¿½ï¿½Í’lï¿½ÆƒJï¿½ï¿½ï¿½ï¿½ï¿½ÌŒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½Ú“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         Vector3 moveForward = cameraForward * verticalInput + Camera.main.transform.right * horizontalInput;
 
-        // ˆÚ“®•ûŒü‚ÉƒXƒs[ƒh‚ğŠ|‚¯‚éBƒWƒƒƒ“ƒv‚â—‰º‚ª‚ ‚éê‡‚ÍA•Ê“rY²•ûŒü‚Ì‘¬“xƒxƒNƒgƒ‹‚ğ‘«‚·B
+        // ï¿½Ú“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÉƒXï¿½sï¿½[ï¿½hï¿½ï¿½ï¿½|ï¿½ï¿½ï¿½ï¿½Bï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½vï¿½â—ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÍAï¿½Ê“rYï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‘ï¿½ï¿½xï¿½xï¿½Nï¿½gï¿½ï¿½ï¿½ğ‘«‚ï¿½ï¿½B
         pRigid.velocity = moveForward * moveSpeed + new Vector3(0, pRigid.velocity.y, 0);
         //pRigid.(moveForward * moveSpeed + pRigid.position);
         //   pRigid.AddForce(moveForward * moveSpeed,ForceMode.Force);// + new Vector3(0, pRigid.velocity.y, 0);
     }
 
-    //ƒWƒƒƒ“ƒv
+    //ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½v
     void Jump()
     {
-        // ƒvƒŒƒCƒ„[‚ÉãŒü‚«‚Ì—Í‚ğ‰Á‚¦‚ÄƒWƒƒƒ“ƒv
+        // ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½Ì—Í‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÄƒWï¿½ï¿½ï¿½ï¿½ï¿½v
         pRigid.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 
-        // ’n–Ê‚ÉÚ’n‚µ‚Ä‚¢‚È‚¢ó‘Ô‚Éİ’è
+        // ï¿½nï¿½Ê‚ÉÚ’nï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ï¿½Ô‚Éİ’ï¿½
         isGrounded = false;
     }
 
     private void OnCollisionEnter(Collision collision)
 
     {
-        // Õ“Ë‚µ‚½ƒIƒuƒWƒFƒNƒg‚ª’n–Ê‚Å‚ ‚éê‡
+        // ï¿½Õ“Ë‚ï¿½ï¿½ï¿½ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ï¿½ï¿½nï¿½Ê‚Å‚ï¿½ï¿½ï¿½ê‡
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
         }
     }
 
-
-
-
     private void OnTriggerEnter(Collider collision)
     {
-        // Õ“Ë‚µ‚½ƒIƒuƒWƒFƒNƒg‚ªƒ`ƒFƒbƒNƒ|ƒCƒ“ƒg‚Å‚ ‚éê‡
+        // ï¿½Õ“Ë‚ï¿½ï¿½ï¿½ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½Nï¿½|ï¿½Cï¿½ï¿½ï¿½gï¿½Å‚ï¿½ï¿½ï¿½ê‡
         if (collision.gameObject.CompareTag("CheckPointCollider"))
         {
-            //Œ»İ’n“_‚ğ•Û
+            //ï¿½ï¿½ï¿½İ’nï¿½_ï¿½ï¿½Ûï¿½
             checkPPos = pTrans.position;
         }
 
@@ -108,6 +113,47 @@ public class Player : MonoBehaviour
         if(pTrans.position.y <= -20.0f)
         {
             pTrans.position = checkPPos;  
+        }
+    }
+
+    void Ultrahand()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            GameObject hitObject = hit.transform.gameObject;
+
+            if (Input.GetMouseButtonDown(0) && Input.GetMouseButton(1))
+            {
+                if (hitObject.CompareTag(holdTag))
+                {
+                    selectObject = hitObject;
+                    isDrag = true;
+                    objectDepth = hit.distance;
+                }
+            }
+        }
+
+        if (Input.GetMouseButtonUp(1))
+        {
+            isDrag = false;
+        }
+
+        if (selectObject != null)
+        {
+            Vector3 mousePos = Input.mousePosition;
+            mousePos.z = objectDepth;
+
+            objectDepth += Input.GetAxis("Mouse ScrollWheel") * 5.0f;
+
+            selectObject.transform.position = Camera.main.ScreenToWorldPoint(mousePos);
+
+            if (!isDrag)
+            {
+                selectObject = null;
+            }
         }
     }
 }
