@@ -74,8 +74,10 @@ public class Player : MonoBehaviour
         {
             isGrounded = true;
         }
-
     }
+
+
+
 
     private void OnTriggerEnter(Collider collision)
     {
@@ -84,6 +86,20 @@ public class Player : MonoBehaviour
         {
             //åªç›ínì_Çï€éù
             checkPPos = pTrans.position;
+        }
+
+        if (collision.tag == "MoveFloor")
+        {
+            this.gameObject.transform.parent = collision.gameObject.transform;
+        }
+
+    }
+
+    void OnTriggerExit(Collider collision)
+    {
+        if (collision.tag == "MoveFloor")
+        {
+            this.gameObject.transform.parent = null;
         }
     }
 
