@@ -2336,6 +2336,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rock_04
       objectReference: {fileID: 0}
+    - target: {fileID: 4749940127517013245, guid: 748ca274b89873247873cee26d353629,
+        type: 3}
+      propertyPath: m_TagString
+      value: Hold
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1887197506848293912, guid: 748ca274b89873247873cee26d353629, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 748ca274b89873247873cee26d353629, type: 3}
@@ -2516,12 +2521,12 @@ PrefabInstance:
     - target: {fileID: 2458134898692238523, guid: fce71331f0948b147968507b9b860857,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.220332
+      value: -6.2
       objectReference: {fileID: 0}
     - target: {fileID: 2458134898692238523, guid: fce71331f0948b147968507b9b860857,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.295484
+      value: -3.2
       objectReference: {fileID: 0}
     - target: {fileID: 2458134898692238523, guid: fce71331f0948b147968507b9b860857,
         type: 3}
