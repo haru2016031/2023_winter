@@ -145,7 +145,7 @@ PrefabInstance:
     - target: {fileID: 845946043467643931, guid: 0de76b5ad27932142837fc630e1de24d,
         type: 3}
       propertyPath: m_Constraints
-      value: 32
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 845946043756905457, guid: 0de76b5ad27932142837fc630e1de24d,
         type: 3}
@@ -205,7 +205,7 @@ PrefabInstance:
     - target: {fileID: 1369104229753138061, guid: 0de76b5ad27932142837fc630e1de24d,
         type: 3}
       propertyPath: m_Name
-      value: Player Variant
+      value: Player Variant 1
       objectReference: {fileID: 0}
     - target: {fileID: 1750732193868280119, guid: 0de76b5ad27932142837fc630e1de24d,
         type: 3}
