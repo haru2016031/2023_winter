@@ -7,7 +7,6 @@ TagManager:
   - Ground
   - CheckPointCollider
   - MoveFloor
-  - Hold
   layers:
   - Default
   - TransparentFX

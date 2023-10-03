@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public float rotateSpeed = 2.0f;            //ï¿½ï¿½]ï¿½Ì‘ï¿½ï¿½ï¿½
-    public Vector3 cOffset;      //zï¿½ï¿½ï¿½ğ’²ï¿½ï¿½Bï¿½ï¿½ï¿½Ìï¿½ï¿½È‚ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Ì‘Oï¿½ÉAï¿½ï¿½ï¿½Ìï¿½ï¿½È‚ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½ÌŒï¿½ï¿½É”zï¿½uï¿½ï¿½ï¿½ï¿½
+    public float rotateSpeed = 2.0f;            //‰ñ“]‚Ì‘¬‚³
+    public Vector3 cOffset;      //z²‚ğ’²®B³‚Ì”‚È‚çƒvƒŒƒCƒ„[‚Ì‘O‚ÉA•‰‚Ì”‚È‚çƒvƒŒƒCƒ„[‚ÌŒã‚ë‚É”z’u‚·‚é
 
-    private GameObject mainCamera;              //ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½iï¿½[ï¿½p
-    private GameObject playerObject;            //ï¿½ï¿½]ï¿½Ì’ï¿½ï¿½Sï¿½Æ‚È‚ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½iï¿½[ï¿½p
+    private GameObject mainCamera;              //ƒƒCƒ“ƒJƒƒ‰Ši”[—p
+    private GameObject playerObject;            //‰ñ“]‚Ì’†S‚Æ‚È‚éƒvƒŒƒCƒ„[Ši”[—p
 
     private Vector3 oldTrans;
-    public Transform target; // ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½ï¿½Transform
-    public float rotationSpeed = 4.0f; // ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Ì‰ï¿½]ï¿½ï¿½ï¿½x
-    public Vector3 offset = new Vector3(0, 2, -5); // ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Ì‘ï¿½ï¿½Î“Iï¿½ÈˆÊ’u
-    public float minYAngle = -30.0f; // ï¿½Åï¿½ï¿½ï¿½Yï¿½ï¿½ï¿½pï¿½x
-    public float maxYAngle = 60.0f; // ï¿½Å‘ï¿½ï¿½Yï¿½ï¿½ï¿½pï¿½x
+    public Transform target; // ƒvƒŒƒCƒ„[‚ÌTransform
+    public float rotationSpeed = 4.0f; // ƒJƒƒ‰‚Ì‰ñ“]‘¬“x
+    public Vector3 offset = new Vector3(0, 2, -5); // ƒJƒƒ‰‚Ì‘Š‘Î“I‚ÈˆÊ’u
+    public float minYAngle = -30.0f; // Å¬‚ÌY²Šp“x
+    public float maxYAngle = 60.0f; // Å‘å‚ÌY²Šp“x
     private float minXAngle = -20.0f;
     private float maxXAngle = 45.0f;
 
@@ -25,12 +25,12 @@ public class CameraController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Æƒï¿½ï¿½jï¿½eï¿½Bï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚¼ï¿½ï¿½æ“¾
+        //ƒƒCƒ“ƒJƒƒ‰‚Æƒ†ƒjƒeƒB‚¿‚á‚ñ‚ğ‚»‚ê‚¼‚êæ“¾
         mainCamera = Camera.main.gameObject;
         playerObject = GameObject.FindWithTag("Player");
         oldTrans = playerObject.transform.position;
         mainCamera.transform.position = playerObject.transform.position + cOffset;
-        Cursor.lockState = CursorLockMode.Locked;
+
     }
 
     // Update is called once per frame
@@ -39,7 +39,7 @@ public class CameraController : MonoBehaviour
         
         //MoveCamera();
 
-        //rotateCameraï¿½ÌŒÄ‚Ñoï¿½ï¿½
+        //rotateCamera‚ÌŒÄ‚Ño‚µ
         RotateCamera();
 
     }
@@ -47,7 +47,7 @@ public class CameraController : MonoBehaviour
     private void RotateCamera()
     {
 
-        // ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Ì‰ï¿½]ï¿½ğ§Œï¿½
+        // ƒJƒƒ‰‚Ì‰ñ“]‚ğ§ŒÀ
         float horizontalInput = Input.GetAxis("Mouse X");
         float verticalInput = Input.GetAxis("Mouse Y");
 
@@ -56,7 +56,7 @@ public class CameraController : MonoBehaviour
         currentY = Mathf.Clamp(currentY, minXAngle, maxXAngle);
 
 
-        // ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÊ’uï¿½ï¿½İ’ï¿½
+        // ƒJƒƒ‰‚ÌˆÊ’u‚ğİ’è
         Quaternion rotation = Quaternion.Euler(currentY, currentX, 0);
         mainCamera.transform.position = target.position + rotation * offset;
         Vector3 t = new Vector3( target.position.x, target.position.y+2, target.position.z );
@@ -66,7 +66,7 @@ public class CameraController : MonoBehaviour
     private void MoveCamera()
     {
        
-        //ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Íƒvï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Æ“ï¿½ï¿½ï¿½ï¿½Ê’uï¿½É‚ï¿½ï¿½ï¿½
+        //ƒJƒƒ‰‚ÍƒvƒŒƒCƒ„[‚Æ“¯‚¶ˆÊ’u‚É‚·‚é
         mainCamera.transform.position += playerObject.transform.position - oldTrans;
         oldTrans = playerObject.transform.position;
     }
