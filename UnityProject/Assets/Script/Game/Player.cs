@@ -85,7 +85,7 @@ public class Player : MonoBehaviour
         if (collision.gameObject.CompareTag("CheckPointCollider"))
         {
             //åªç›ínì_Çï€éù
-            checkPPos = pTrans.position;
+            checkPPos = pTrans.position + new Vector3(0,2,0);
         }
 
         if (collision.tag == "MoveFloor")
@@ -107,7 +107,8 @@ public class Player : MonoBehaviour
     {
         if(pTrans.position.y <= -20.0f)
         {
-            pTrans.position = checkPPos;  
+            pTrans.position = checkPPos;
+            pRigid.velocity = Vector3.zero;
         }
     }
 }

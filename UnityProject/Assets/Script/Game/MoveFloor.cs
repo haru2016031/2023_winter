@@ -5,16 +5,16 @@ using UnityEngine;
 public class MoveFloor : MonoBehaviour
 {
     public float speed = 2.0f; // 移動速度
-    public float distance = 5.0f; // 移動する距離
-
     private Vector3 startPosition;  //スタート地点
     private Vector3 endPosition;    //終点
     private bool movingRight = true;    //進行方向フラグ
+    [SerializeField] private GameObject startObj;
+    [SerializeField] private GameObject endObj;
     // Start is called before the first frame update
     void Start()
     {
         startPosition = transform.position; //  初期座標保持
-        endPosition = startPosition + Vector3.forward * distance;
+        endPosition = startPosition + endObj.transform.position - startObj.transform.position;    //終点座標保持
     }
 
     // Update is called once per frame
