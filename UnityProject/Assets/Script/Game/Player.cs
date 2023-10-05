@@ -74,7 +74,33 @@ public class Player : MonoBehaviour
         {
             isGrounded = true;
         }
+        if (collision.gameObject.CompareTag("MoveFloor"))
+        {
+            this.gameObject.transform.SetParent(collision.gameObject.transform, true);
+
+            //Debug.Log("PLOLD " + collision.gameObject.transform.localScale);
+            //var col = collision.gameObject.transform.localScale;
+            //var s = this.gameObject.transform.localScale;
+            //this.gameObject.transform.parent = collision.gameObject.transform;
+            //Debug.Log("PLNEW " + this.gameObject.transform.localScale);
+            /*this.gameObject.transform.localScale = new Vector3(
+                s.x/col.x,
+                 s.y / col.y,
+                  s.z / col.z);*/
+            //this.gameObject.transform.SetParent(collision.gameObject.transform,false);
+        }
     }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("MoveFloor"))
+        {
+            this.gameObject.transform.parent = null;
+        }
+
+    }
+
+
 
 
 
@@ -90,7 +116,9 @@ public class Player : MonoBehaviour
 
         if (collision.tag == "MoveFloor")
         {
-            this.gameObject.transform.parent = collision.gameObject.transform;
+            //this.gameObject.transform.parent = collision.gameObject.transform;
+            //this.gameObject.transform.localScale = new Vector3(1, 1, 1);
+            this.gameObject.transform.SetParent(collision.gameObject.transform.parent.parent.transform,true);
         }
 
     }
