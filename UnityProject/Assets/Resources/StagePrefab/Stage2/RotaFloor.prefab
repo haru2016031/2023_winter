@@ -82,7 +82,7 @@ GameObject:
   - component: {fileID: 885625206917934466}
   m_Layer: 0
   m_Name: Plane
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -208,6 +208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc31430cfe845314a818ce0dbf73b98e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rotaDir: 0
   rotationSpeed: 30
 --- !u!1 &4103664635161835323
 GameObject:

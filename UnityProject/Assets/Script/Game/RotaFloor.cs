@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class RotaFloor : MonoBehaviour
 {
+    enum RotaDir
+    {
+        Right,
+        Left
+    }
+    [SerializeField] private RotaDir rotaDir = RotaDir.Right;
     public float rotationSpeed = 30.0f; // è∞ÇÃâÒì]ë¨ìx
 
     void Update()
     {
-        // è∞ÇâÒì]Ç≥ÇπÇÈ
-        transform.Rotate(Vector3.up * rotationSpeed * Time.deltaTime);
+        transform.Rotate((rotaDir == RotaDir.Right ? Vector3.up : Vector3.down) * rotationSpeed * Time.deltaTime);
     }
 }
