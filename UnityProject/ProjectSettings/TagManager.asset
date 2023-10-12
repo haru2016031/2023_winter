@@ -8,6 +8,7 @@ TagManager:
   - CheckPointCollider
   - MoveFloor
   - Effect1
+  - Wall
   layers:
   - Default
   - TransparentFX

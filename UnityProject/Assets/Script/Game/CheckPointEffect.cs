@@ -7,19 +7,28 @@ public class CheckPointEffect : MonoBehaviour
     public GameObject prefab;
 
     private float offsetY = 2.0f;
-
-    private bool hasPlayed = false; // 再生フラグ
-
     void Start()
     {
     }
 
-    void OnTriggerEnter(Collider  collision)
+    void OnTriggerEnter(Collider collision)
     {
-        if(collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
-            Vector3 spawnPos = transform.position + new Vector3(0,offsetY,0);
-            Instantiate(prefab,spawnPos,transform.rotation);
+            Vector3 spawnPos = transform.position + new Vector3(0, offsetY, 0);
+            ShowEffect(spawnPos, transform.rotation);
         }
+    }
+
+    void ShowEffect(Vector3 spawnPos, Quaternion rotation)
+    {
+        GameObject effect = Instantiate(prefab, spawnPos, rotation);
+        StartCoroutine(DestroyEffect(effect, 2.5f)); // エフェクトを1秒後に削除するCoroutineを呼び出す
+    }
+
+    IEnumerator DestroyEffect(GameObject effect, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Destroy(effect); // エフェクトを削除
     }
 }
