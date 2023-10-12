@@ -52,8 +52,6 @@ public class Player : MonoBehaviour
 
         // 移動方向にスピードを掛ける。ジャンプや落下がある場合は、別途Y軸方向の速度ベクトルを足す。
         pRigid.velocity = moveForward * moveSpeed + new Vector3(0, pRigid.velocity.y, 0);
-        //pRigid.(moveForward * moveSpeed + pRigid.position);
-        //   pRigid.AddForce(moveForward * moveSpeed,ForceMode.Force);// + new Vector3(0, pRigid.velocity.y, 0);
     }
 
     //ジャンプ
@@ -66,6 +64,7 @@ public class Player : MonoBehaviour
         isGrounded = false;
     }
 
+
     private void OnCollisionEnter(Collision collision)
 
     {
@@ -77,17 +76,6 @@ public class Player : MonoBehaviour
         if (collision.gameObject.CompareTag("MoveFloor"))
         {
             this.gameObject.transform.SetParent(collision.gameObject.transform, true);
-
-            //Debug.Log("PLOLD " + collision.gameObject.transform.localScale);
-            //var col = collision.gameObject.transform.localScale;
-            //var s = this.gameObject.transform.localScale;
-            //this.gameObject.transform.parent = collision.gameObject.transform;
-            //Debug.Log("PLNEW " + this.gameObject.transform.localScale);
-            /*this.gameObject.transform.localScale = new Vector3(
-                s.x/col.x,
-                 s.y / col.y,
-                  s.z / col.z);*/
-            //this.gameObject.transform.SetParent(collision.gameObject.transform,false);
         }
     }
 
@@ -100,11 +88,6 @@ public class Player : MonoBehaviour
 
     }
 
-
-
-
-
-
     private void OnTriggerEnter(Collider collision)
     {
         // 衝突したオブジェクトがチェックポイントである場合
@@ -116,8 +99,6 @@ public class Player : MonoBehaviour
 
         if (collision.tag == "MoveFloor")
         {
-            //this.gameObject.transform.parent = collision.gameObject.transform;
-            //this.gameObject.transform.localScale = new Vector3(1, 1, 1);
             this.gameObject.transform.SetParent(collision.gameObject.transform.parent.parent.transform,true);
         }
 
@@ -133,7 +114,8 @@ public class Player : MonoBehaviour
 
     void Dead()
     {
-        if(pTrans.position.y <= -20.0f)
+        //高さが一定より下がるまたはRキーを押すことでプレイヤーリスポーン
+        if(pTrans.position.y <= -20.0f || Input.GetKeyDown(KeyCode.R))
         {
             pTrans.position = checkPPos;
             pRigid.velocity = Vector3.zero;

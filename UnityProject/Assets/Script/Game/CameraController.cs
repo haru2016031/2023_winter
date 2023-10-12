@@ -52,7 +52,7 @@ public class CameraController : MonoBehaviour
         float verticalInput = Input.GetAxis("Mouse Y");
 
         currentX += horizontalInput * rotationSpeed;
-        currentY += verticalInput * rotationSpeed;
+        currentY += -verticalInput * rotationSpeed;
         currentY = Mathf.Clamp(currentY, minXAngle, maxXAngle);
 
 

@@ -5,9 +5,13 @@ using UnityEngine;
 public class FallFloor : MonoBehaviour
 {
     public float fallDelay = 2.0f; // 接地後の落下までの遅延時間
-    [SerializeField] private float backTime = 1.5f;
+    public float shakeDuration = 1.0f; // 揺らし続ける時間
+    public float shakeInterval = 0.1f; // 床を揺らす間隔
+    public float shakeMagnitude = 0.1f; // 揺れの強さ
     private Rigidbody rb;
     private Vector3 pos;
+
+    private Coroutine _coroutine;
 
     void Start()
     {
@@ -20,20 +24,38 @@ public class FallFloor : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player")) // プレイヤーと接触した場合
         {
-            Invoke("Fall", fallDelay); // 遅延後に落下させる
+            if (_coroutine == null)
+            {
+                _coroutine = StartCoroutine(FallWithShake());
+            }
         }
     }
-    void Fall()
+
+    IEnumerator FallWithShake()
     {
-        rb.isKinematic = false; // 物理的な影響を受ける
-                                // 1秒後に床オブジェクトを非アクティブにする
-        Invoke("DeactivatePlatform", backTime);
+        // 揺れる
+        float elapsedTime = 0;
+        while (elapsedTime < shakeDuration)
+        {
+            Vector3 randomShake = new Vector3(Random.insideUnitSphere.x, 0, Random.insideUnitSphere.z) * shakeMagnitude;
+            transform.position += randomShake;
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // 物理的な影響を受ける
+        rb.isKinematic = false;
+
+        // 1秒後に床オブジェクトを元の場所に戻す
+        yield return new WaitForSeconds(fallDelay);
+        DeactivatePlatform();
     }
 
     void DeactivatePlatform()
     {
         transform.position = pos;
-        rb.isKinematic = true; 
-
+        rb.isKinematic = true;
+        StopCoroutine(_coroutine);
+        _coroutine = null;
     }
 }
