@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class FallRock : MonoBehaviour
 {
+    public ParticleSystem effectPrefab; // エフェクトのプレハブ
+    private ParticleSystem effectInstance; // エフェクトのインスタンス
     private Rigidbody rb;
     private Vector3 pos;
     private Quaternion rota;
@@ -16,7 +18,23 @@ public class FallRock : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         pos = GetComponent<Transform>().position;
         rota = GetComponent<Transform>().rotation;
+        EffectInit();
+
         MoveObjectToTarget();
+
+    }
+
+    void EffectInit()
+    {
+        // エフェクトのプレハブが設定されている場合
+        if (effectPrefab != null)
+        {
+            // エフェクトのプレハブから新しいインスタンスを生成
+            effectInstance = Instantiate(effectPrefab, transform.position, Quaternion.identity);
+
+            // エフェクトが再生し終わったらインスタンスを破棄
+            Destroy(effectInstance.gameObject, effectInstance.main.duration);
+        }
 
     }
 
@@ -29,11 +47,15 @@ public class FallRock : MonoBehaviour
 
     void ReturnToInitialPosition()
     {
+        EffectInit();
+
         // 元の位置に戻る
         transform.position = pos;
         transform.rotation = rota; 
         rb.velocity = Vector3.zero;
         rb.Sleep();
+        EffectInit();
+
         MoveObjectToTarget();
     }
 }

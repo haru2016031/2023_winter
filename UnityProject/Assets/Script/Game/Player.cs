@@ -64,6 +64,12 @@ public class Player : MonoBehaviour
         isGrounded = false;
     }
 
+    // プレイヤーが何かの地面に触れたときに呼び出すメソッド
+    public void SetGrounded(bool grounded)
+    {
+        isGrounded = grounded;
+    }
+
 
     private void OnCollisionEnter(Collision collision)
 
