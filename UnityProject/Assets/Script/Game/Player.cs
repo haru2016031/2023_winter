@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     private Transform pTrans;       //プレイヤーのtransform
     private Vector3 defPos;         //初期座標
     private Vector3 checkPPos;      //保持しているチェックポイント座標
+    private int jumpCnt;            //ジャンプ回数
 
     void Start()
     {
@@ -57,8 +58,23 @@ public class Player : MonoBehaviour
     //ジャンプ
     void Jump()
     {
-        // プレイヤーに上向きの力を加えてジャンプ
-        pRigid.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        if(pRigid.velocity.y <= 0)
+        {
+            pRigid.velocity = Vector3.zero;
+        }
+
+        jumpCnt++;
+
+        if(jumpCnt >= 2)
+        {
+            // プレイヤーに上向きの力を加えてジャンプ
+            pRigid.AddForce(Vector3.up * jumpForce*2, ForceMode.Impulse);
+
+        }
+        else
+        {
+            pRigid.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
 
         // 地面に接地していない状態に設定
         isGrounded = false;
@@ -78,6 +94,7 @@ public class Player : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
+            jumpCnt = 0;
         }
         if (collision.gameObject.CompareTag("MoveFloor"))
         {
@@ -106,6 +123,12 @@ public class Player : MonoBehaviour
         if (collision.tag == "MoveFloor")
         {
             this.gameObject.transform.SetParent(collision.gameObject.transform.parent.parent.transform,true);
+        }
+
+        if(collision.tag == "Balloon")
+        {
+            isGrounded = true;
+            jumpCnt++;
         }
 
     }
