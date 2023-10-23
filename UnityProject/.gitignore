@@ -70,3 +70,9 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+/Assets/Brick Project Studio
+/Assets/SimpleNaturePack
+/Assets/LowPolyDungeonsLite
+/Assets/LowPolyFarmLite
+/Assets/LowPolyFPSLite
+/Assets/LowPolyMedievalPropsLite
