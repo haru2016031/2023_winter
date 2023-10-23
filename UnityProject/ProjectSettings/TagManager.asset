@@ -9,6 +9,7 @@ TagManager:
   - MoveFloor
   - Effect1
   - Wall
+  - Hold
   layers:
   - Default
   - TransparentFX

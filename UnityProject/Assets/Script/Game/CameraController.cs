@@ -30,6 +30,8 @@ public class CameraController : MonoBehaviour
         playerObject = GameObject.FindWithTag("Player");
         oldTrans = playerObject.transform.position;
         mainCamera.transform.position = playerObject.transform.position + cOffset;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
 
     }
 
