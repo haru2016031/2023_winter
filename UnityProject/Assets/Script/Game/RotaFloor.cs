@@ -30,7 +30,7 @@ public class RotaFloor : MonoBehaviour
             {
                 // Z²ü‚è‚É‰ñ“]
                 var angle = rotationSpeed * Time.deltaTime;
-                transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward) * transform.rotation;
+                transform.rotation = Quaternion.AngleAxis(angle, (rotaDir == RotaDir.Forward ? Vector3.forward : Vector3.back)) * transform.rotation;
                 //transform.Rotate((rotaDir == RotaDir.Forward ? Vector3.forward : Vector3.back) * rotationSpeed * Time.deltaTime);
                 // Œ»İ‚Ì‰ñ“]Šp“x‚ğXV
                 currentRotation += rotationSpeed * Time.deltaTime;
