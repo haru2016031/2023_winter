@@ -31,6 +31,8 @@ public class Player : MonoBehaviour
 
         Dead();
 
+        Fall();
+
         if (isGrounded && Input.GetButtonDown("Jump"))
         {
             // ジャンプアクションを実行
@@ -149,5 +151,10 @@ public class Player : MonoBehaviour
             pTrans.position = checkPPos;
             pRigid.velocity = Vector3.zero;
         }
+    }
+
+    void Fall()
+    {
+
     }
 }
