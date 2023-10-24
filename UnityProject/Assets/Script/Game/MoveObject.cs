@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MoveObject : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class MoveObject : MonoBehaviour
     public Transform playerTrans;
     private GameObject beamInstance;
 
+    public bool useUltraHundFlag = false;
     void Start()
     {
 
@@ -27,56 +29,59 @@ public class MoveObject : MonoBehaviour
 
     void Ultrahand()
     {
-        // マウスの位置からレイを飛ばし、オブジェクトをつかむ処理
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit))
+        if (useUltraHundFlag == true)
         {
-            GameObject hitObject = hit.transform.gameObject;
+            // マウスの位置からレイを飛ばし、オブジェクトをつかむ処理
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
 
-            if (Input.GetMouseButtonDown(0) && Input.GetMouseButton(1))
+            if (Physics.Raycast(ray, out hit))
             {
-                if (hitObject.CompareTag(holdTag))
+                GameObject hitObject = hit.transform.gameObject;
+
+                if (Input.GetMouseButtonDown(0) && Input.GetMouseButton(1))
                 {
-                    // オブジェクトをつかみ、ビームを生成
-                    selectObject = hitObject;
-                    isDrag = true;
-                    objectDepth = hit.distance;
-                    CreateBeam();
+                    if (hitObject.CompareTag(holdTag))
+                    {
+                        // オブジェクトをつかみ、ビームを生成
+                        selectObject = hitObject;
+                        isDrag = true;
+                        objectDepth = hit.distance;
+                        CreateBeam();
+                    }
                 }
             }
-        }
 
-        if (Input.GetMouseButtonUp(1))
-        {
-            // マウスボタンを離したらビームを消す
-            isDrag = false;
-            DestroyBeam();
-        }
-
-        if (selectObject != null)
-        {
-            // オブジェクトをマウスの位置に移動させ、ビームを更新
-            Vector3 mousePos = Input.mousePosition;
-            mousePos.z = objectDepth;
-            objectDepth += Input.GetAxis("Mouse ScrollWheel") * 5.0f;
-            MoveObjectWithRigidbody(Camera.main.ScreenToWorldPoint(mousePos));
-
-            UpdateBeamPos();
-
-            if (!isDrag)
+            if (Input.GetMouseButtonUp(1))
             {
-                // ドラッグが終了したら選択を解除
-                selectObject = null;
+                // マウスボタンを離したらビームを消す
+                isDrag = false;
+                DestroyBeam();
             }
 
-            if (selectObject != null && beamInstance != null)
+            if (selectObject != null)
             {
-                // ビームの長さを再計算
-                float distance = Vector3.Distance(playerTrans.position, selectObject.transform.position);
-                float beamLength = distance / 30.0f;
-                UpdateBeamLength(beamLength);
+                // オブジェクトをマウスの位置に移動させ、ビームを更新
+                Vector3 mousePos = Input.mousePosition;
+                mousePos.z = objectDepth;
+                objectDepth += Input.GetAxis("Mouse ScrollWheel") * 5.0f;
+                MoveObjectWithRigidbody(Camera.main.ScreenToWorldPoint(mousePos));
+
+                UpdateBeamPos();
+
+                if (!isDrag)
+                {
+                    // ドラッグが終了したら選択を解除
+                    selectObject = null;
+                }
+
+                if (selectObject != null && beamInstance != null)
+                {
+                    // ビームの長さを再計算
+                    float distance = Vector3.Distance(playerTrans.position, selectObject.transform.position);
+                    float beamLength = distance / 30.0f;
+                    UpdateBeamLength(beamLength);
+                }
             }
         }
     }
@@ -99,7 +104,15 @@ public class MoveObject : MonoBehaviour
     {
         // Rigidbodyを使ってオブジェクトを移動させる処理
         Vector3 moveDirection = (targetPosition - selectObject.transform.position).normalized;
-        selectObject.GetComponent<Rigidbody>().velocity = moveDirection * 5f; // velocityを使用して移動させる
+
+        // 現在の速度を取得
+        Vector3 currentVelocity = selectObject.GetComponent<Rigidbody>().velocity;
+
+        // 滑らかな移動
+        Vector3 smoothVelocity = Vector3.Lerp(currentVelocity,moveDirection * 10.0f,Time.deltaTime * 10.0f);
+
+        // velocityを使用して移動させる
+        selectObject.GetComponent<Rigidbody>().velocity = smoothVelocity;
     }
 
     void UpdateBeamPos()
@@ -132,6 +145,26 @@ public class MoveObject : MonoBehaviour
         if (beamInstance != null)
         {
             Destroy(beamInstance);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "UltraHundAria")
+        {
+            useUltraHundFlag = true;
+            Debug.Log("ウルトラ使える");
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "UltraHundAria")
+        {
+            useUltraHundFlag = false;
+            isDrag = false;
+            DestroyBeam();
+            Debug.Log("ウルトラ使えない");
         }
     }
 }
