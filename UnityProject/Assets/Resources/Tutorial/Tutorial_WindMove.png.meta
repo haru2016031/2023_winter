@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:UnityProject/Assets/Resources/ADX2/cri/documentation/crimwlogo.gif.meta
-guid: a6569a72fa75ca34e9e44b85ec87f2c1
-========
-guid: 2b24d75a66de4bc459becb3c4b5ad425
->>>>>>>> ｍｙbranch:UnityProject/Assets/Resources/Tutorial/Tutorial_Balloon.png.meta
+guid: eb9982cf4f28f0f4ea0ba84d8f806f95
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}

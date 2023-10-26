@@ -13,13 +13,16 @@ public class Player : MonoBehaviour
     private Vector3 defPos;         //初期座標
     private Vector3 checkPPos;      //保持しているチェックポイント座標
     private int jumpCnt;            //ジャンプ回数
-
+    private int moveFloorTriggerCnt;//トリガー回数
+    private int groundCollisionCnt;//トリガー回数
     void Start()
     {
         pRigid = GetComponent<Rigidbody>();
         pTrans = GetComponent<Transform>();
         defPos = pTrans.position;
         checkPPos = defPos;
+        moveFloorTriggerCnt = 0;
+        groundCollisionCnt = 0;
     }
 
     // Update is called once per frame
@@ -92,23 +95,26 @@ public class Player : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
 
     {
+      
         // 衝突したオブジェクトが地面である場合
         if (collision.gameObject.CompareTag("Ground"))
         {
+            groundCollisionCnt++;
             isGrounded = true;
             jumpCnt = 0;
-        }
-        if (collision.gameObject.CompareTag("MoveFloor"))
-        {
-            this.gameObject.transform.SetParent(collision.gameObject.transform, true);
         }
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.CompareTag("MoveFloor"))
+        
+        if (collision.gameObject.CompareTag("Ground"))
         {
-            this.gameObject.transform.parent = null;
+            if (groundCollisionCnt == 1)
+            {
+                isGrounded = false;
+            }
+            groundCollisionCnt--;
         }
 
     }
@@ -124,7 +130,9 @@ public class Player : MonoBehaviour
 
         if (collision.tag == "MoveFloor")
         {
+            Debug.Log("入る" + Time.time);
             this.gameObject.transform.SetParent(collision.gameObject.transform.parent.parent.transform,true);
+            moveFloorTriggerCnt++;
         }
 
         if(collision.tag == "Balloon")
@@ -139,7 +147,12 @@ public class Player : MonoBehaviour
     {
         if (collision.tag == "MoveFloor")
         {
-            this.gameObject.transform.parent = null;
+            Debug.Log("出た" + Time.time);
+            if(moveFloorTriggerCnt == 1)
+            {
+                this.gameObject.transform.parent = null;
+            }
+            moveFloorTriggerCnt--;
         }
     }
 

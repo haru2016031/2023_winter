@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:UnityProject/Assets/Resources/Sound.meta
 guid: 8207fcaee59426e4bb81597f6bced331
+========
+guid: bef5aa5c38042c14f9e226b905e9128f
+>>>>>>>> ｍｙbranch:UnityProject/Assets/Resources/Sound/SE.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
