@@ -6,9 +6,11 @@ public class SnowmanJump : MonoBehaviour
 {
     public float jumpForce = 10f; // ジャンプ力
     public float jumpInterval = 2f; // ジャンプ間隔
+    public int jumpCnt = 1;     //ジャンプ可能回数
 
     private Rigidbody rb;
     private Coroutine _coroutine;
+    private int currentJumpCnt; //現在のジャンプ回数
 
     private float nextJumpTime;
 
@@ -16,6 +18,7 @@ public class SnowmanJump : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         nextJumpTime = Time.time + jumpInterval;
+        currentJumpCnt = jumpCnt;
     }
 
     IEnumerator Jump()
@@ -26,6 +29,15 @@ public class SnowmanJump : MonoBehaviour
 
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             _coroutine = null;
+            currentJumpCnt--;
+            if(currentJumpCnt > 0)
+            {
+                _coroutine = StartCoroutine(Jump());
+            }
+            else
+            {
+                currentJumpCnt = jumpCnt;
+            }
         }
     }
     private void OnCollisionEnter(Collision collision)
