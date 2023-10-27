@@ -41,7 +41,7 @@ public class MoveObject : MonoBehaviour
             {
                 GameObject hitObject = hit.transform.gameObject;
 
-                if (Input.GetMouseButtonDown(0) && Input.GetMouseButton(1))
+                if (Input.GetMouseButtonDown(1))
                 {
                     if (hitObject.CompareTag(holdTag))
                     {
@@ -50,12 +50,6 @@ public class MoveObject : MonoBehaviour
                         isDrag = true;
                         objectDepth = hit.distance;
                         CreateBeam();
-
-                        // íÕÇÒÇ≈Ç¢ÇÈèÛë‘Ç≈êÿÇËë÷Ç¶
-                        if (isDrag == true)
-                        {
-                            FreezeObject();
-                        }
                     }
                 }
             }
@@ -90,6 +84,12 @@ public class MoveObject : MonoBehaviour
                     float beamLength = distance / 30.0f;
                     UpdateBeamLength(beamLength);
                 }
+            }
+
+            // íÕÇÒÇ≈Ç¢ÇÈèÛë‘Ç≈êÿÇËë÷Ç¶
+            if (isDrag == true)
+            {
+                FreezeObject();
             }
         }
     }
