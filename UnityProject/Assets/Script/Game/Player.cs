@@ -15,10 +15,16 @@ public class Player : MonoBehaviour
     private int jumpCnt;            //ジャンプ回数
     private int moveFloorTriggerCnt;//トリガー回数
     private int groundCollisionCnt;//トリガー回数
+
+    // se
+    public AudioClip jumpSE;
+    private AudioSource audioSource;
     void Start()
     {
         pRigid = GetComponent<Rigidbody>();
         pTrans = GetComponent<Transform>();
+        audioSource = pTrans.GetComponent<AudioSource>();
+        audioSource.volume = 0.1f;
         defPos = pTrans.position;
         checkPPos = defPos;
         moveFloorTriggerCnt = 0;
@@ -40,6 +46,8 @@ public class Player : MonoBehaviour
         {
             // ジャンプアクションを実行
             Jump();
+
+            audioSource.PlayOneShot(jumpSE);
         }
     }
 
