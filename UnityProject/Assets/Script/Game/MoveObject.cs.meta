@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:UnityProject/Assets/Script/Game/MoveObject.cs.meta
 guid: f37c019f3987c444e815edd4916b277a
+========
+guid: 1d7e14ad62e15364e83e1c0205c52875
+>>>>>>>> ｍｙbranch:UnityProject/Assets/Script/Game/Tutorial/SnowmanRespawn.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

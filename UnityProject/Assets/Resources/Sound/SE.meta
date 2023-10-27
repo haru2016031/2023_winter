@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:UnityProject/Assets/Resources/Sound/SE.meta
 guid: bef5aa5c38042c14f9e226b905e9128f
+========
+guid: 24f1512fc5a9b40458de85566b77d342
+>>>>>>>> ｍｙbranch:UnityProject/Assets/Tsutsuji.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
