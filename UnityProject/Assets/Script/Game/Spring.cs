@@ -27,7 +27,7 @@ public class Spring : MonoBehaviour
 			// 当たった相手のRigidbodyコンポーネントを取得して、上向きの力を加える
 			var r = other.gameObject.GetComponent<Rigidbody>();
 			r.velocity = new Vector3(r.velocity.x, 0, r.velocity.z);
-			r.AddForce(0, jumpForce, 0, ForceMode.Impulse);
+			r.AddForce (0, jumpForce, 0, ForceMode.Impulse);
 			audioSource.PlayOneShot(springSE);
 		}
 	}

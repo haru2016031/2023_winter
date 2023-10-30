@@ -11,6 +11,7 @@ public class BalloonBurst : MonoBehaviour
 
     // SE
     public AudioClip balloonSE;
+    public AudioClip expandSE;
     AudioSource audioSource;
 
     private bool popped = false; // 風船がすでに割れたかどうか
@@ -97,7 +98,7 @@ public class BalloonBurst : MonoBehaviour
             // 成長アニメーションを開始
             growthStartTime = Time.time;
             currentScale = 1.0f;
-
+            audioSource.PlayOneShot(expandSE);
 
         }
 
