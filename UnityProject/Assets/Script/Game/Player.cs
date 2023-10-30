@@ -23,7 +23,7 @@ public class Player : MonoBehaviour
     {
         pRigid = GetComponent<Rigidbody>();
         pTrans = GetComponent<Transform>();
-        audioSource = pTrans.GetComponent<AudioSource>();
+        audioSource = GetComponent<AudioSource>();
         audioSource.volume = 0.1f;
         defPos = pTrans.position;
         checkPPos = defPos;
@@ -33,7 +33,6 @@ public class Player : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-
     {
         //CameraMove();
         Move();
@@ -105,7 +104,7 @@ public class Player : MonoBehaviour
     {
       
         // 衝突したオブジェクトが地面である場合
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Hold"))
         {
             groundCollisionCnt++;
             isGrounded = true;

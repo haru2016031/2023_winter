@@ -4,8 +4,16 @@ using UnityEngine;
 
 public class Spring : MonoBehaviour
 {
+	public AudioClip springSE;
+	AudioSource audioSource;
+
 	// ジャンプする力（上向きの力）を定義
 	[SerializeField] private float jumpForce = 20.0f;
+
+	void Start()
+	{
+		audioSource = GetComponent<AudioSource>();
+	}
 
 	/// <summary>
 	/// Colliderが他のトリガーに入った時に呼び出される
@@ -20,6 +28,7 @@ public class Spring : MonoBehaviour
 			var r = other.gameObject.GetComponent<Rigidbody>();
 			r.velocity = new Vector3(r.velocity.x, 0, r.velocity.z);
 			r.AddForce(0, jumpForce, 0, ForceMode.Impulse);
+			audioSource.PlayOneShot(springSE);
 		}
 	}
 }
