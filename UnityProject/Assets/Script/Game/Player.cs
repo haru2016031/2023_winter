@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
         pRigid = GetComponent<Rigidbody>();
         pTrans = GetComponent<Transform>();
         audioSource = GetComponent<AudioSource>();
-        audioSource.volume = 0.1f;
+        audioSource.volume = 0.01f;
         defPos = pTrans.position;
         checkPPos = defPos;
         moveFloorTriggerCnt = 0;
