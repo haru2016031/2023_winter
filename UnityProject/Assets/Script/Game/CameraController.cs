@@ -5,7 +5,6 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     public float rotateSpeed = 2.0f;            //回転の速さ
-    public Vector3 cOffset;      //z軸を調整。正の数ならプレイヤーの前に、負の数ならプレイヤーの後ろに配置する
 
     private GameObject mainCamera;              //メインカメラ格納用
     private GameObject playerObject;            //回転の中心となるプレイヤー格納用
@@ -29,7 +28,7 @@ public class CameraController : MonoBehaviour
         mainCamera = Camera.main.gameObject;
         playerObject = GameObject.FindWithTag("Player");
         oldTrans = playerObject.transform.position;
-        mainCamera.transform.position = playerObject.transform.position + cOffset;
+        mainCamera.transform.position = playerObject.transform.position;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 

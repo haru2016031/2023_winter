@@ -65,6 +65,7 @@ public class Player : MonoBehaviour
 
         // 移動方向にスピードを掛ける。ジャンプや落下がある場合は、別途Y軸方向の速度ベクトルを足す。
         pRigid.velocity = moveForward * moveSpeed + new Vector3(0, pRigid.velocity.y, 0);
+
     }
 
     //ジャンプ
