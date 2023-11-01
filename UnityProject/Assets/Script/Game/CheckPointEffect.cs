@@ -5,10 +5,14 @@ using UnityEngine;
 public class CheckPointEffect : MonoBehaviour
 {
     public GameObject prefab;
+    public AudioClip checkPointSE;
+    public AudioClip checkPointSE_2;
 
+    AudioSource audioSource;
     private float offsetY = 2.0f;
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
     }
 
     void OnTriggerEnter(Collider collision)
@@ -17,6 +21,9 @@ public class CheckPointEffect : MonoBehaviour
         {
             Vector3 spawnPos = transform.position + new Vector3(0, offsetY, 0);
             ShowEffect(spawnPos, transform.rotation);
+
+            audioSource.PlayOneShot(checkPointSE);
+            audioSource.PlayOneShot(checkPointSE_2);
         }
     }
 

@@ -6,11 +6,12 @@ public class Rock : MonoBehaviour
 {
     private Vector3 inistPos;
     private Rigidbody rb;
-    private float fallHeight = -10.0f;
+    private float fallHeight;
     void Start()
     {
         inistPos = transform.position;
         rb = GetComponent<Rigidbody>();
+        fallHeight = inistPos.y - 20.0f;
     }
 
     void Update()
