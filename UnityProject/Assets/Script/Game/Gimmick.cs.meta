@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:UnityProject/Assets/Gimmick.cs.meta
+guid: 7d6462689ff04424f8d0fc350c2a8c92
+========
+guid: f37c019f3987c444e815edd4916b277a
+>>>>>>>> ｍｙbranch:UnityProject/Assets/Script/Game/MoveObject.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -15,10 +15,16 @@ public class Player : MonoBehaviour
     private int jumpCnt;            //ジャンプ回数
     private int moveFloorTriggerCnt;//トリガー回数
     private int groundCollisionCnt;//トリガー回数
+
+    // se
+    public AudioClip jumpSE;
+    private AudioSource audioSource;
     void Start()
     {
         pRigid = GetComponent<Rigidbody>();
         pTrans = GetComponent<Transform>();
+        audioSource = GetComponent<AudioSource>();
+        audioSource.volume = 0.01f;
         defPos = pTrans.position;
         checkPPos = defPos;
         moveFloorTriggerCnt = 0;
@@ -27,7 +33,6 @@ public class Player : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-
     {
         //CameraMove();
         Move();
@@ -40,6 +45,8 @@ public class Player : MonoBehaviour
         {
             // ジャンプアクションを実行
             Jump();
+
+            audioSource.PlayOneShot(jumpSE);
         }
     }
 
@@ -98,7 +105,7 @@ public class Player : MonoBehaviour
     {
       
         // 衝突したオブジェクトが地面である場合
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Hold"))
         {
             groundCollisionCnt++;
             isGrounded = true;

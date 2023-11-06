@@ -9,6 +9,11 @@ public class BalloonBurst : MonoBehaviour
     public float respawnDelay = 2.0f; // リスポーンまでの遅延時間
     public float growthDuration = 2.0f; // 成長にかかる時間
 
+    // SE
+    public AudioClip balloonSE;
+    public AudioClip expandSE;
+    AudioSource audioSource;
+
     private bool popped = false; // 風船がすでに割れたかどうか
     [SerializeField] private Renderer[] balloonRenderer;
     private Collider balloonCollider;
@@ -29,6 +34,7 @@ public class BalloonBurst : MonoBehaviour
         balloonCollider.enabled = true;
         scale = transform.localScale.x;
 
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -60,6 +66,7 @@ public class BalloonBurst : MonoBehaviour
             {
                 Vector3 pos = transform.position + new Vector3(0, 2, 0);
                 ParticleSystem popEffect = Instantiate(popEffectPrefab, pos, Quaternion.identity);
+                audioSource.PlayOneShot(balloonSE);
                 Destroy(popEffect.gameObject, popEffect.main.duration);
             }
             // 一定の遅延時間後にリスポーン
@@ -91,7 +98,7 @@ public class BalloonBurst : MonoBehaviour
             // 成長アニメーションを開始
             growthStartTime = Time.time;
             currentScale = 1.0f;
-
+            audioSource.PlayOneShot(expandSE);
 
         }
 

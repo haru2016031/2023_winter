@@ -6,22 +6,18 @@ using UnityEngine.UI;
 public class CrossCtl : MonoBehaviour
 {
     public Image image;
-    public MoveObject moveObject;
-
     void Start()
     {
-        image = GetComponent<Image>();
+
     }
 
     void Update()
     {
-        if (moveObject.useUltraHundFlag == true)
+        if (FindObjectOfType<MoveObject>() != null)
         {
-            image.enabled = true;
-        }
-        else
-        {
-            image.enabled = false;
+            bool isUltraHundActive = FindObjectOfType<MoveObject>().useUltraHundFlag;
+            image.enabled = isUltraHundActive;
         }
     }
 }
+

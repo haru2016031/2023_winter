@@ -16,7 +16,9 @@ public class MoveObject : MonoBehaviour
     public Transform playerTrans;
     private GameObject beamInstance;
 
-    public bool useUltraHundFlag = false;
+    public bool useUltraHundFlag;
+    private bool isFreeze = false;
+
     void Start()
     {
 
@@ -39,7 +41,7 @@ public class MoveObject : MonoBehaviour
             {
                 GameObject hitObject = hit.transform.gameObject;
 
-                if (Input.GetMouseButtonDown(0) && Input.GetMouseButton(1))
+                if (Input.GetMouseButtonDown(1))
                 {
                     if (hitObject.CompareTag(holdTag))
                     {
@@ -83,6 +85,12 @@ public class MoveObject : MonoBehaviour
                     UpdateBeamLength(beamLength);
                 }
             }
+
+            // íÕÇÒÇ≈Ç¢ÇÈèÛë‘Ç≈êÿÇËë÷Ç¶
+            if (isDrag == true)
+            {
+                FreezeObject();
+            }
         }
     }
 
@@ -113,6 +121,22 @@ public class MoveObject : MonoBehaviour
 
         // velocityÇégópÇµÇƒà⁄ìÆÇ≥ÇπÇÈ
         selectObject.GetComponent<Rigidbody>().velocity = smoothVelocity;
+    }
+
+    void FreezeObject()
+    {
+        if(Input.GetMouseButtonDown(0))
+        {
+            if(selectObject != null)
+            {
+                isFreeze = !isFreeze;
+                Rigidbody rb = selectObject.GetComponent<Rigidbody>();
+                if(rb != null)
+                {
+                    rb.constraints = isFreeze ? RigidbodyConstraints.FreezeAll : RigidbodyConstraints.None;
+                }
+            }
+        }
     }
 
     void UpdateBeamPos()

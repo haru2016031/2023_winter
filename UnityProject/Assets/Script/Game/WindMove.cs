@@ -5,7 +5,6 @@ using UnityEngine;
 public class WindMove : MonoBehaviour
 {
     public float windStrength = 10f; // •—‚Ì‹­‚³
-
     private void OnTriggerStay(Collider other)
     {
         Rigidbody rb = other.GetComponent<Rigidbody>();

@@ -11,6 +11,8 @@ public class FallRock : MonoBehaviour
     private Quaternion rota;
     public float moveTime = 2.0f;    // ˆÚ“®‚É‚©‚©‚éŽžŠÔ
 
+    public AudioClip respowanSE;
+    AudioSource audioSource;
 
     // Start is called before the first frame update
     void Start()
@@ -18,6 +20,7 @@ public class FallRock : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         pos = GetComponent<Transform>().position;
         rota = GetComponent<Transform>().rotation;
+        audioSource = GetComponent<AudioSource>();
         EffectInit();
 
         MoveObjectToTarget();
@@ -53,6 +56,7 @@ public class FallRock : MonoBehaviour
         transform.position = pos;
         transform.rotation = rota; 
         rb.velocity = Vector3.zero;
+        audioSource.PlayOneShot(respowanSE);
         rb.Sleep();
         EffectInit();
 
