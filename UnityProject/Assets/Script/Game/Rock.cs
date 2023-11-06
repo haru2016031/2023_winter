@@ -31,11 +31,11 @@ public class Rock : MonoBehaviour
         Vector3 velocity = rb.velocity;
         if(velocity.magnitude > checkRolling)
         {
-            Debug.Log("オブジェクトは転がっています");
+
         }
         else
         {
-            Debug.Log("オブジェクトは転がっていません");
+
         }
     }
 }

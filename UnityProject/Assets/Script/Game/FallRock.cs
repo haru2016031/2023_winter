@@ -21,6 +21,7 @@ public class FallRock : MonoBehaviour
         pos = GetComponent<Transform>().position;
         rota = GetComponent<Transform>().rotation;
         audioSource = GetComponent<AudioSource>();
+        audioSource.volume = 0.5f;
         EffectInit();
 
         MoveObjectToTarget();
