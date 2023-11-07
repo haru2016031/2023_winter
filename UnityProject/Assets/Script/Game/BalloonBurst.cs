@@ -35,6 +35,7 @@ public class BalloonBurst : MonoBehaviour
         scale = transform.localScale.x;
 
         audioSource = GetComponent<AudioSource>();
+        audioSource.volume = 0.1f;
     }
 
     private void Update()
