@@ -7,6 +7,7 @@ public class Rock : MonoBehaviour
     private Vector3 inistPos;
     private Rigidbody rb;
     private float fallHeight;
+    private float checkRolling = 3.5f;
     void Start()
     {
         inistPos = transform.position;
@@ -25,6 +26,16 @@ public class Rock : MonoBehaviour
                 rb.velocity = Vector3.zero;
                 rb.angularVelocity = Vector3.zero;
             }
+        }
+
+        Vector3 velocity = rb.velocity;
+        if(velocity.magnitude > checkRolling)
+        {
+
+        }
+        else
+        {
+
         }
     }
 }
