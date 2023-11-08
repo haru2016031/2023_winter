@@ -57,7 +57,10 @@ public class FallRock : MonoBehaviour
         transform.position = pos;
         transform.rotation = rota; 
         rb.velocity = Vector3.zero;
-        audioSource.PlayOneShot(respowanSE);
+        if (audioSource != null)
+        {
+            audioSource.PlayOneShot(respowanSE);
+        }
         rb.Sleep();
         EffectInit();
 
