@@ -25,7 +25,6 @@ public class FallRock : MonoBehaviour
         EffectInit();
 
         MoveObjectToTarget();
-
     }
 
     void EffectInit()
@@ -44,7 +43,6 @@ public class FallRock : MonoBehaviour
 
     void MoveObjectToTarget()
     {
-
         // 一定時間後に元の位置に戻すメソッドを呼び出す
         Invoke("ReturnToInitialPosition", moveTime);
     }
