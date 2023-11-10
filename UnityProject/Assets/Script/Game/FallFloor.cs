@@ -13,11 +13,15 @@ public class FallFloor : MonoBehaviour
 
     private Coroutine _coroutine;
 
+    public AudioClip fallFloorSE;
+    AudioSource audioSource;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.isKinematic = true; // ç≈èâÇÕï®óùìIÇ»âeãøÇéÛÇØÇ»Ç¢
         pos = GetComponent<Transform>().position;
+        audioSource = GetComponent<AudioSource>();
     }
 
     void OnCollisionEnter(Collision collision)
@@ -27,7 +31,16 @@ public class FallFloor : MonoBehaviour
             if (_coroutine == null)
             {
                 _coroutine = StartCoroutine(FallWithShake());
+                audioSource.PlayOneShot(fallFloorSE);
             }
+        }
+    }
+
+    void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            audioSource.Stop();
         }
     }
 
