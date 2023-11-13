@@ -14,14 +14,22 @@ public class FallFloor : MonoBehaviour
     private Coroutine _coroutine;
 
     public AudioClip fallFloorSE;
-    AudioSource audioSource;
+    public AudioClip fallSE;
+    public AudioClip respawnSE;
+    AudioSource fallFloorSource;
+    AudioSource fallSouce;
+    AudioSource respowanSource;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.isKinematic = true; // 最初は物理的な影響を受けない
         pos = GetComponent<Transform>().position;
-        audioSource = GetComponent<AudioSource>();
+        fallFloorSource = GetComponent<AudioSource>();
+        fallSouce = GetComponent<AudioSource>();
+        respowanSource = GetComponent<AudioSource>();
+        fallSouce.volume = 0.3f;
+        respowanSource.volume = 0.3f;
     }
 
     void OnCollisionEnter(Collision collision)
@@ -31,16 +39,8 @@ public class FallFloor : MonoBehaviour
             if (_coroutine == null)
             {
                 _coroutine = StartCoroutine(FallWithShake());
-                audioSource.PlayOneShot(fallFloorSE);
+                fallFloorSource.PlayOneShot(fallFloorSE);
             }
-        }
-    }
-
-    void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            audioSource.Stop();
         }
     }
 
@@ -59,6 +59,12 @@ public class FallFloor : MonoBehaviour
         // 物理的な影響を受ける
         rb.isKinematic = false;
 
+        if(!rb.isKinematic)
+        {
+            fallFloorSource.Stop();
+            fallSouce.PlayOneShot(fallSE);
+        }
+
         // 1秒後に床オブジェクトを元の場所に戻す
         yield return new WaitForSeconds(fallDelay);
         DeactivatePlatform();
@@ -70,5 +76,6 @@ public class FallFloor : MonoBehaviour
         rb.isKinematic = true;
         StopCoroutine(_coroutine);
         _coroutine = null;
+        respowanSource.PlayOneShot(respawnSE);
     }
 }
