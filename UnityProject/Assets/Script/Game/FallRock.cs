@@ -9,6 +9,8 @@ public class FallRock : MonoBehaviour
     private Rigidbody rb;
     private Vector3 pos;
     private Quaternion rota;
+    [SerializeField]
+    private float delayTime = 2.0f;
     public float moveTime = 2.0f;    // 移動にかかる時間
 
     public AudioClip respowanSE;
@@ -22,9 +24,10 @@ public class FallRock : MonoBehaviour
         rota = GetComponent<Transform>().rotation;
         audioSource = GetComponent<AudioSource>();
         audioSource.volume = 0.5f;
-        EffectInit();
-
-        MoveObjectToTarget();
+        //非表示
+        //物理演算拒否
+        Invoke("MoveObjectToTarget", delayTime);
+        this.gameObject.SetActive(false);
 
     }
 
@@ -44,7 +47,8 @@ public class FallRock : MonoBehaviour
 
     void MoveObjectToTarget()
     {
-
+        this.gameObject.SetActive(true);
+        EffectInit();
         // 一定時間後に元の位置に戻すメソッドを呼び出す
         Invoke("ReturnToInitialPosition", moveTime);
     }
@@ -57,7 +61,10 @@ public class FallRock : MonoBehaviour
         transform.position = pos;
         transform.rotation = rota; 
         rb.velocity = Vector3.zero;
-        audioSource.PlayOneShot(respowanSE);
+        if (audioSource != null)
+        {
+            audioSource.PlayOneShot(respowanSE);
+        }
         rb.Sleep();
         EffectInit();
 

@@ -6,15 +6,19 @@ public class Player : MonoBehaviour
 {
     public float moveSpeed = 1.0f;  //移動速度
     public float jumpForce = 10.0f; // ジャンプ力
+    public float pushForce = 10f;   // 吹っ飛ばす力
+    public float cooldownTime = 2f; // 判定を取る間隔のクールダウン時間
 
     private bool isGrounded = true; // 地面に接地しているかどうかを示すフラグ
     private Rigidbody pRigid;       //プレイヤーのrigidbody
     private Transform pTrans;       //プレイヤーのtransform
-    private Vector3 defPos;         //初期座標
+    public Vector3 defPos;         //初期座標
     private Vector3 checkPPos;      //保持しているチェックポイント座標
     private int jumpCnt;            //ジャンプ回数
     private int moveFloorTriggerCnt;//トリガー回数
-    private int groundCollisionCnt;//トリガー回数
+    private int groundCollisionCnt;//ト
+    private bool canCollide = true; // 判定を取ることができるかどうかのフラグ
+    private float lastCollisionTime; // 最後に判定を取った時間リガー回数
 
     // se
     public AudioClip jumpSE;
@@ -35,7 +39,10 @@ public class Player : MonoBehaviour
     void Update()
     {
         //CameraMove();
-        Move();
+        if (canCollide)
+        {
+            Move();
+        }
 
         Dead();
 
@@ -47,6 +54,12 @@ public class Player : MonoBehaviour
             Jump();
 
             audioSource.PlayOneShot(jumpSE);
+        }
+
+        // クールダウンが終了したら判定を再度取れるようにする
+        if (!canCollide && Time.time - lastCollisionTime >= cooldownTime)
+        {
+            canCollide = true;
         }
     }
 
@@ -111,6 +124,7 @@ public class Player : MonoBehaviour
             isGrounded = true;
             jumpCnt = 0;
         }
+
     }
 
     private void OnCollisionExit(Collision collision)
@@ -149,6 +163,11 @@ public class Player : MonoBehaviour
             jumpCnt++;
         }
 
+        if(canCollide && collision.tag == "Rock")
+        {
+            PushRock(collision);
+        }
+
     }
 
     void OnTriggerExit(Collider collision)
@@ -177,5 +196,24 @@ public class Player : MonoBehaviour
     void Fall()
     {
 
+    }
+
+    void PushRock(Collider collision)
+    {
+        // 判定を取った後、クールダウンを開始
+        canCollide = false;
+        lastCollisionTime = Time.time;
+
+        // 衝突したオブジェクトにRigidbodyがアタッチされているか確認
+        Rigidbody rockRigidbody = collision.gameObject.GetComponent<Rigidbody>();
+        if (rockRigidbody != null)
+        {
+            // プレイヤーの進行方向に力を加えて吹っ飛ばす
+            Vector3 pushDirection = collision.transform.forward; // 仮にプレイヤーの前方向とします
+            pushDirection.x = 0.6f;
+            Debug.Log(pushDirection);
+            pRigid.velocity = Vector3.zero;
+            pRigid.AddForce(pushDirection * pushForce, ForceMode.Impulse);
+        }
     }
 }

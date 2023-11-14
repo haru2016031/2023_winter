@@ -6,6 +6,11 @@ public class SwitchDoor: MonoBehaviour
 {
     private Vector3 m_targetPosition;
     private bool m_bOpen = false;
+    [SerializeField]
+    private Vector3 m_moveDir = Vector3.up; //ˆÚ“®•ûŒü
+    [SerializeField]
+    private float m_speed = 5f; //ˆÚ“®‘¬“x
+
 
     private void DoorOpen()
     {
@@ -13,7 +18,7 @@ public class SwitchDoor: MonoBehaviour
     }
     private void Start()
     {
-        m_targetPosition = transform.position + Vector3.up * 5f;
+        m_targetPosition = transform.position + m_moveDir * m_speed;
     }
 
     private void Update()

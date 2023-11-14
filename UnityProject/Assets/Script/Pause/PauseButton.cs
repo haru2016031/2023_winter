@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 
 public class PauseButton : MonoBehaviour
@@ -10,24 +11,35 @@ public class PauseButton : MonoBehaviour
     [SerializeField]
     private GameObject toTitleButton;
 
+    //初期座標に戻すボタン
+    [SerializeField]
+    private Button restartButton;
+
     [SerializeField]
     private GameObject exitPrefab;
 
-    public GameObject exitInstance;
-    public bool CancelFlag = false;
+    private Player playerComponent;
+
+    private Vector3 defPos = new Vector3(-15.0f, -3.0f, -14.0f);
 
 
+
+    public void ResetPlayer()
+    {
+        GameObject playerController = GameObject.FindWithTag("Player");
+        playerComponent = playerController.GetComponent<Player>();
+        // プレイヤーを初期座標に戻す
+        Time.timeScale = 1f;
+        playerComponent.transform.position = defPos;
+        Destroy(this.gameObject);
+    }
     public void ExitCanvas()
     {
-        if (exitInstance == null)
-        {
-            exitInstance = GameObject.Instantiate(exitPrefab) as GameObject;
-        }
+         GameObject.Instantiate(exitPrefab);
     }
 
     public void ToTitle()
     {
-        Debug.Log("クリック");
 
         Time.timeScale = 1f;
         SceneManager.LoadScene("TitleScene");
@@ -36,9 +48,7 @@ public class PauseButton : MonoBehaviour
 
     public void CancelToTitle()
     {
-        CancelFlag = true;
-        Debug.Log("クリック");
-        //Time.timeScale = 1f;
-       Destroy(exitInstance);
+        Destroy(this.gameObject);
+
     }
 }
