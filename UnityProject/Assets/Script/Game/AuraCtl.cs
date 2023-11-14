@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class AuraCtl : MonoBehaviour
 {
-    public GameObject auraObject;
+    
     void Start()
     {
-        auraObject = GetComponent<GameObject>();
+       
     }
 
     void Update()
@@ -17,17 +17,17 @@ public class AuraCtl : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag("UltraHundAria"))
+        if(other.gameObject.CompareTag("Player"))
         {
-            auraObject.SetActive(true);
+            
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("UltraHundAria"))
+        if (other.gameObject.CompareTag("Player"))
         {
-            auraObject.SetActive(false);
+
         }
     }
 }
