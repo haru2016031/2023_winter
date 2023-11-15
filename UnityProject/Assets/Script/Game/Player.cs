@@ -22,13 +22,13 @@ public class Player : MonoBehaviour
 
     // se
     public AudioClip jumpSE;
-    private AudioSource audioSource;
+    AudioSource jumpSource;
     void Start()
     {
         pRigid = GetComponent<Rigidbody>();
         pTrans = GetComponent<Transform>();
-        audioSource = GetComponent<AudioSource>();
-        audioSource.volume = 0.01f;
+        jumpSource = GetComponent<AudioSource>();
+        jumpSource.volume = 0.01f;
         defPos = pTrans.position;
         checkPPos = defPos;
         moveFloorTriggerCnt = 0;
@@ -53,7 +53,7 @@ public class Player : MonoBehaviour
             // ジャンプアクションを実行
             Jump();
 
-            audioSource.PlayOneShot(jumpSE);
+            jumpSource.PlayOneShot(jumpSE);
         }
 
         // クールダウンが終了したら判定を再度取れるようにする

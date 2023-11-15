@@ -11,14 +11,19 @@ public class SwitchDoor: MonoBehaviour
     [SerializeField]
     private float m_speed = 5f; //ˆÚ“®‘¬“x
 
+    public AudioClip audioClip;
+    AudioSource audioSource;
 
     private void DoorOpen()
     {
         m_bOpen = true;
+        audioSource.PlayOneShot(audioClip);
     }
     private void Start()
     {
         m_targetPosition = transform.position + m_moveDir * m_speed;
+        audioSource = GetComponent<AudioSource>();
+        audioSource.volume = 0.1f;
     }
 
     private void Update()

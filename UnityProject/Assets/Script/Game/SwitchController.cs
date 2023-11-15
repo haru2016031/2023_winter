@@ -9,10 +9,13 @@ public class SwitchController : MonoBehaviour
     private Renderer objectRenderer;
     public float lowerAmount = 0.5f; // ‰º‚ÉˆÚ“®‚·‚é—Ê
     private bool isLowered = false; // ‰º‚ÉˆÚ“®‚µ‚½‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO
+    public AudioClip audioClip;
+    private AudioSource audioSource;
 
     private void Start()
     {
-        objectRenderer = GetComponent < Renderer>();
+        objectRenderer = GetComponent<Renderer>();
+        audioSource = GetComponent<AudioSource>();
         originalColor = objectRenderer.material.color;
     }
 
@@ -28,6 +31,8 @@ public class SwitchController : MonoBehaviour
             newPosition.y -= lowerAmount;
             transform.position = newPosition;
 
+            audioSource.PlayOneShot(audioClip);
+            
             isLowered = true;
             SwitchManager.DoorOpen();
         }
@@ -40,8 +45,6 @@ public class SwitchController : MonoBehaviour
         {
             // ‰Šú‚ÌF‚É–ß‚·
             objectRenderer.material.color = originalColor;
-
-
         }
     }
 }
