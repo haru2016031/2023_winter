@@ -25,11 +25,11 @@ public class WindMove : MonoBehaviour
 
         if (playerdistance <= audiodistance)
         {
-            Debug.Log("Maxdistance“à");
+            //Debug.Log("Maxdistance“à");
         }
         else
         {
-            Debug.Log("MaxdistanceŠO");
+            //Debug.Log("MaxdistanceŠO");
         }
 
     }

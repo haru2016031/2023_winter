@@ -9,14 +9,14 @@ public class Player : MonoBehaviour
     public float pushForce = 10f;   // 吹っ飛ばす力
     public float cooldownTime = 2f; // 判定を取る間隔のクールダウン時間
 
-    private bool isGrounded = true; // 地面に接地しているかどうかを示すフラグ
+    public bool isGrounded = true; // 地面に接地しているかどうかを示すフラグ
+    public int jumpCnt;            //ジャンプ回数
+    public int groundCollisionCnt;//ト
     private Rigidbody pRigid;       //プレイヤーのrigidbody
     private Transform pTrans;       //プレイヤーのtransform
     public Vector3 defPos;         //初期座標
     private Vector3 checkPPos;      //保持しているチェックポイント座標
-    private int jumpCnt;            //ジャンプ回数
     private int moveFloorTriggerCnt;//トリガー回数
-    private int groundCollisionCnt;//ト
     private bool canCollide = true; // 判定を取ることができるかどうかのフラグ
     private float lastCollisionTime; // 最後に判定を取った時間リガー回数
 
@@ -112,33 +112,22 @@ public class Player : MonoBehaviour
         isGrounded = grounded;
     }
 
-
-    private void OnCollisionEnter(Collision collision)
-
+    public void JumpCollisionEnter(Collider collision)
     {
-      
-        // 衝突したオブジェクトが地面である場合
-        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Hold"))
-        {
-            groundCollisionCnt++;
-            isGrounded = true;
-            jumpCnt = 0;
-        }
-
+        // 衝突したオブジェクトが地面か持てるオブジェクトである場合
+        groundCollisionCnt++;
+        isGrounded = true;
+        jumpCnt = 0;
     }
 
-    private void OnCollisionExit(Collision collision)
+    public void JumpCollisionExit(Collider collision)
     {
-        
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            if (groundCollisionCnt == 1)
-            {
-                isGrounded = false;
-            }
-            groundCollisionCnt--;
-        }
 
+        if (groundCollisionCnt == 1)
+        {
+            isGrounded = false;
+        }
+        groundCollisionCnt--;
     }
 
     private void OnTriggerEnter(Collider collision)
