@@ -7,21 +7,20 @@ public class Timer : MonoBehaviour
 {
     public Text timerText;
     private float timer;
-
-    void Start()
+    public void Start()
     {
-        timer = 0.0f;
+        timer = 0;
     }
 
-    void Update()
+    public void Update()
     {
-        timer += Time.deltaTime;
-
-        int minutes = Mathf.FloorToInt(timer / 60.0f);
-        int seconds = Mathf.FloorToInt(timer % 60.0f);
+        timer+=Time.deltaTime;
+        var time = timer;
+        int minutes = Mathf.FloorToInt(time / 60.0f);
+        int seconds = Mathf.FloorToInt(time % 60.0f);
+        Debug.Log(timer);
+        Debug.Log(minutes);
 
         timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
-        Debug.Log(timerText.text);
-        Debug.Log(timer);
     }
 }
