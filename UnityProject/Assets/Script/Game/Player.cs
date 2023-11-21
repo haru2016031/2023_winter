@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -10,25 +11,25 @@ public class Player : MonoBehaviour
     public float cooldownTime = 2f; // 判定を取る間隔のクールダウン時間
 
     private bool isGrounded = true; // 地面に接地しているかどうかを示すフラグ
+    private bool oldIsGrounded = true;
+    private int jumpCnt;            //ジャンプ回数
+    private int groundCollisionCnt;//ト
     private Rigidbody pRigid;       //プレイヤーのrigidbody
     private Transform pTrans;       //プレイヤーのtransform
     public Vector3 defPos;         //初期座標
     private Vector3 checkPPos;      //保持しているチェックポイント座標
-    private int jumpCnt;            //ジャンプ回数
     private int moveFloorTriggerCnt;//トリガー回数
-    private int groundCollisionCnt;//ト
     private bool canCollide = true; // 判定を取ることができるかどうかのフラグ
     private float lastCollisionTime; // 最後に判定を取った時間リガー回数
-
     // se
     public AudioClip jumpSE;
-    private AudioSource audioSource;
+    AudioSource jumpSource;
     void Start()
     {
         pRigid = GetComponent<Rigidbody>();
         pTrans = GetComponent<Transform>();
-        audioSource = GetComponent<AudioSource>();
-        audioSource.volume = 0.01f;
+        jumpSource = GetComponent<AudioSource>();
+        jumpSource.volume = 0.01f;
         defPos = pTrans.position;
         checkPPos = defPos;
         moveFloorTriggerCnt = 0;
@@ -50,10 +51,11 @@ public class Player : MonoBehaviour
 
         if (isGrounded && Input.GetButtonDown("Jump"))
         {
+            
             // ジャンプアクションを実行
             Jump();
 
-            audioSource.PlayOneShot(jumpSE);
+            jumpSource.PlayOneShot(jumpSE);
         }
 
         // クールダウンが終了したら判定を再度取れるようにする
@@ -113,32 +115,24 @@ public class Player : MonoBehaviour
     }
 
 
-    private void OnCollisionEnter(Collision collision)
-
+    public void JumpCollisionEnter()
     {
-      
-        // 衝突したオブジェクトが地面である場合
-        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Hold"))
-        {
-            groundCollisionCnt++;
-            isGrounded = true;
-            jumpCnt = 0;
-        }
-
+        // 衝突したオブジェクトが地面か持てるオブジェクトである場合
+        groundCollisionCnt++;
+        isGrounded = true;
+        jumpCnt = 0;
+        Debug.Log(groundCollisionCnt);
     }
 
-    private void OnCollisionExit(Collision collision)
+    public void JumpCollisionExit()
     {
-        
-        if (collision.gameObject.CompareTag("Ground"))
+        //Debug.Log(this);
+        if (groundCollisionCnt == 1)
         {
-            if (groundCollisionCnt == 1)
-            {
-                isGrounded = false;
-            }
-            groundCollisionCnt--;
-        }
+            isGrounded = false;
 
+        }
+        groundCollisionCnt--;
     }
 
     private void OnTriggerEnter(Collider collision)
