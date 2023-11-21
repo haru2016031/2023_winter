@@ -28,6 +28,7 @@ public class FallFloor : MonoBehaviour
         fallFloorSource = GetComponent<AudioSource>();
         fallSouce = GetComponent<AudioSource>();
         respowanSource = GetComponent<AudioSource>();
+        fallFloorSource.volume = 0.3f;
         fallSouce.volume = 0.3f;
         respowanSource.volume = 0.3f;
     }
