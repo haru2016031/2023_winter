@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -9,9 +10,10 @@ public class Player : MonoBehaviour
     public float pushForce = 10f;   // 吹っ飛ばす力
     public float cooldownTime = 2f; // 判定を取る間隔のクールダウン時間
 
-    public bool isGrounded = true; // 地面に接地しているかどうかを示すフラグ
-    public int jumpCnt;            //ジャンプ回数
-    public int groundCollisionCnt;//ト
+    private bool isGrounded = true; // 地面に接地しているかどうかを示すフラグ
+    private bool oldIsGrounded = true;
+    private int jumpCnt;            //ジャンプ回数
+    private int groundCollisionCnt;//ト
     private Rigidbody pRigid;       //プレイヤーのrigidbody
     private Transform pTrans;       //プレイヤーのtransform
     public Vector3 defPos;         //初期座標
@@ -19,7 +21,6 @@ public class Player : MonoBehaviour
     private int moveFloorTriggerCnt;//トリガー回数
     private bool canCollide = true; // 判定を取ることができるかどうかのフラグ
     private float lastCollisionTime; // 最後に判定を取った時間リガー回数
-
     // se
     public AudioClip jumpSE;
     AudioSource jumpSource;
@@ -50,6 +51,7 @@ public class Player : MonoBehaviour
 
         if (isGrounded && Input.GetButtonDown("Jump"))
         {
+            
             // ジャンプアクションを実行
             Jump();
 
@@ -112,20 +114,23 @@ public class Player : MonoBehaviour
         isGrounded = grounded;
     }
 
-    public void JumpCollisionEnter(Collider collision)
+
+    public void JumpCollisionEnter()
     {
         // 衝突したオブジェクトが地面か持てるオブジェクトである場合
         groundCollisionCnt++;
         isGrounded = true;
         jumpCnt = 0;
+        Debug.Log(groundCollisionCnt);
     }
 
-    public void JumpCollisionExit(Collider collision)
+    public void JumpCollisionExit()
     {
-
+        //Debug.Log(this);
         if (groundCollisionCnt == 1)
         {
             isGrounded = false;
+
         }
         groundCollisionCnt--;
     }
