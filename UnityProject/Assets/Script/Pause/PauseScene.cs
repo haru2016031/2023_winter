@@ -10,27 +10,39 @@ public class PauseScene : MonoBehaviour
 	//　ポーズUIのインスタンス
 	private GameObject pauseUIInstance;
 
+	private GameObject exitUI;
+
 	// Update is called once per frame
 	void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.Escape))
 		{
-			if (pauseUIInstance == null)
-			{
-				Cursor.visible = true;
-				pauseUIInstance = GameObject.Instantiate(pauseUIPrefab) as GameObject;
-				Time.timeScale = 0f;
-				Cursor.lockState = CursorLockMode.None;
-
-			}
-			else
-			{
-				Cursor.visible = false;
-				Destroy(pauseUIInstance);
-				Time.timeScale = 1f;
-				Cursor.lockState = CursorLockMode.Locked;
-
-			}
+            if (!exitUI)
+            {
+				if (pauseUIInstance == null)
+				{
+					Cursor.visible = true;
+					pauseUIInstance = GameObject.Instantiate(pauseUIPrefab) as GameObject;
+					Time.timeScale = 0f;
+					Cursor.lockState = CursorLockMode.None;
+				}
+				else
+				{
+					Cursor.visible = false;
+					Destroy(pauseUIInstance);
+					Time.timeScale = 1f;
+					Cursor.lockState = CursorLockMode.Locked;
+				}
+            }
+            else
+            {
+				Destroy(exitUI);
+            }
 		}
 	}
+
+	public void SetExitUI(GameObject obj)
+    {
+		exitUI = obj;
+    }
 }
