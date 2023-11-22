@@ -20,7 +20,9 @@ public class Timer : MonoBehaviour
         int seconds = Mathf.FloorToInt(time % 60.0f);
         Debug.Log(timer);
         Debug.Log(minutes);
-
-        timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+        if (timerText)
+        {
+            timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+        }
     }
 }
