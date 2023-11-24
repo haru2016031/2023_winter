@@ -11,7 +11,6 @@ public class Player : MonoBehaviour
     public float cooldownTime = 2f; // 判定を取る間隔のクールダウン時間
 
     private bool isGrounded = true; // 地面に接地しているかどうかを示すフラグ
-    private bool oldIsGrounded = true;
     private int jumpCnt;            //ジャンプ回数
     private int groundCollisionCnt;//ト
     private Rigidbody pRigid;       //プレイヤーのrigidbody
@@ -19,7 +18,7 @@ public class Player : MonoBehaviour
     public Vector3 defPos;         //初期座標
     private Vector3 checkPPos;      //保持しているチェックポイント座標
     private int moveFloorTriggerCnt;//トリガー回数
-    private bool canCollide = true; // 判定を取ることができるかどうかのフラグ
+    private bool canCollide = true; // 岩との判定を取ることができるかどうかのフラグ
     private float lastCollisionTime; // 最後に判定を取った時間リガー回数
     // se
     public AudioClip jumpSE;

@@ -37,6 +37,7 @@ public class PauseScene : MonoBehaviour
             else
             {
 				Destroy(exitUI);
+
             }
 		}
 	}
