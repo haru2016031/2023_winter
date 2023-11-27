@@ -5,9 +5,32 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
+
     public Text timerText;
     private float timer;
+    private static Timer instance;
+
+    private void Awake()
+    {
+        // 既にインスタンスが存在する場合は自分を破棄する
+        if (instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        // シーン遷移時に破棄されないようにする
+        DontDestroyOnLoad(gameObject);
+
+        // シングルトンパターンで唯一のインスタンスを設定
+        instance = this;
+    }
     public void Start()
+    {
+        Init();
+    }
+
+    public void Init()
     {
         timer = 0;
     }

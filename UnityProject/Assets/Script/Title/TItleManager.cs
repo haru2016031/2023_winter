@@ -5,8 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class TitleManager : MonoBehaviour
 {
-    public string targetSceneName; // ‘JˆÚæ‚ÌƒV[ƒ“–¼
-
     private GameObject player;
     private Animator playerAnim;
     public AudioClip playeVoice;
@@ -34,6 +32,6 @@ public class TitleManager : MonoBehaviour
 
     void LoadScene()
     {
-        SceneManager.LoadScene(targetSceneName);
+        SceneManager.LoadScene(1);
     }
 }

@@ -18,11 +18,11 @@ public class PauseButton : MonoBehaviour
     [SerializeField]
     private GameObject exitPrefab;
 
+    private GameObject exitInstance;
+
     private Player playerComponent;
 
     private Vector3 defPos = new Vector3(-15.0f, -3.0f, -14.0f);
-
-
 
     public void ResetPlayer()
     {
@@ -35,7 +35,9 @@ public class PauseButton : MonoBehaviour
     }
     public void ExitCanvas()
     {
-         GameObject.Instantiate(exitPrefab);
+        GameObject pauseSceneObject = GameObject.FindWithTag("MainCamera");
+        exitInstance = Instantiate(exitPrefab);
+        pauseSceneObject.GetComponent<PauseScene>().SetExitUI(exitInstance);
     }
 
     public void ToTitle()
@@ -50,5 +52,10 @@ public class PauseButton : MonoBehaviour
     {
         Destroy(this.gameObject);
 
+    }
+
+    public void DestroyExit()
+    {
+        Destroy(exitInstance);
     }
 }
