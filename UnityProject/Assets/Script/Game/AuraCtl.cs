@@ -12,9 +12,12 @@ public class AuraCtl : MonoBehaviour
     private Color initHoldColor;
     private bool active = false;
 
-    void Start()
+    private void Awake()
     {
         player = GameObject.Find("aura04");
+    }
+    void Start()
+    {
         player.SetActive(active);
 
         holdObjects = GameObject.FindGameObjectsWithTag("Hold");

@@ -17,7 +17,7 @@ public class JumpController : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("Ground"))
+        if (other.gameObject.CompareTag("Ground") || other.gameObject.CompareTag("Hold"))
         {
             count++;
             //Debug.Log("ì¸ÇÈ" + Time.time+this.gameObject.name + count);
@@ -28,7 +28,7 @@ public class JumpController : MonoBehaviour
     }
     private void OnCollisionExit(Collision other)
     {
-        if (other.gameObject.CompareTag("Ground"))
+        if (other.gameObject.CompareTag("Ground") || other.gameObject.CompareTag("Hold"))
         {
             count--;
             //Debug.Log("èoÇΩ"+Time.time+this.gameObject.name);
@@ -39,7 +39,7 @@ public class JumpController : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
 
-        if (other.gameObject.CompareTag("Ground"))
+        if (other.gameObject.CompareTag("Ground") || other.gameObject.CompareTag("Hold"))
         {
             onColliderEnter.Invoke(other);
         }
