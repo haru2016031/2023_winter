@@ -24,7 +24,7 @@ public class SnowmanRespawn : MonoBehaviour
         {
             rb.velocity = Vector3.zero;
             transform.localRotation = defRota;
-            transform.position = defPos;
+            transform.position = defPos + new Vector3(0f,1f,0f);
         }
     }
 }

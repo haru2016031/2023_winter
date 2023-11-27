@@ -40,6 +40,17 @@ public class RotaFloor : MonoBehaviour
                 {
                     isRotating = false;
                     stopTime = Time.time;
+
+                    // オブジェクトの角度を取得
+                    Vector3 currentRotation = transform.rotation.eulerAngles;
+
+                    float roundedZ = Mathf.Round(currentRotation.z);
+
+                    // 四捨五入された角度を使って新しい Quaternion を作成
+                    Quaternion roundedRotation = Quaternion.Euler(currentRotation.x, currentRotation.y, roundedZ);
+
+                    // オブジェクトに四捨五入された角度を適用
+                    transform.rotation = roundedRotation;
                 }
             }
             else

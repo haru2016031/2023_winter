@@ -7,9 +7,10 @@ using UnityEngine.SceneManagement;
 
 public class WhiteOut : MonoBehaviour
 {
-    public float fadeSpeed = 1.0f;
+    public float fadeTime = 1.0f;
     public Image whitePanel;
     public Canvas canvas;
+    private float time;
     private bool whiteOutFlag;      //ホワイトアウトの開始フラグ
 
     private void Start()
@@ -45,7 +46,8 @@ public class WhiteOut : MonoBehaviour
         if (whitePanel != null)
         {
             Color color = whitePanel.color;
-            color.a += fadeSpeed * Time.deltaTime;
+            time += Time.deltaTime;
+            color.a = time / fadeTime;
 
             if (color.a >= 1.0f)
             {

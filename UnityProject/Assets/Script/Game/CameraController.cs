@@ -51,6 +51,7 @@ public class CameraController : MonoBehaviour
 
     private void RotateCamera()
     {
+        Cursor.lockState = CursorLockMode.Confined;
 
         // ƒJƒƒ‰‚Ì‰ñ“]‚ğ§ŒÀ
         float horizontalInput = Input.GetAxis("Mouse X");
