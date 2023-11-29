@@ -11,6 +11,8 @@ public class AuraCtl : MonoBehaviour
     private Renderer holdRenderer;
     private Color initHoldColor;
     private bool active = false;
+    [SerializeField]
+    private float ultDistance = 10.0f;
 
     private void Awake()
     {
@@ -33,7 +35,6 @@ public class AuraCtl : MonoBehaviour
 
                 initHoldColor = holdRenderer.material.color;
             }
-            //hold = holdObjects[0];
         }
 
         // 初期のカラーを保存
@@ -56,16 +57,21 @@ public class AuraCtl : MonoBehaviour
 
             if (active)
             {
+
                 foreach (var obj in holdObjects)
                 {
-                    if (obj.GetComponent<OutlineBehaviour>())
+                    // this（自分自身のTransform）とobjの距離を計算
+                    float distance = Vector3.Distance(other.transform.position, obj.transform.position);
+                    Debug.Log(distance);
+                    // 一定の距離以内にいる場合
+                    if (distance < ultDistance)
                     {
-                        obj.GetComponent<OutlineBehaviour>().enabled = true;
+                        if (obj.GetComponent<OutlineBehaviour>())
+                        {
+                            obj.GetComponent<OutlineBehaviour>().enabled = true;
+                        }
                     }
-                    //obj.GetComponent<Renderer>().material.color = Color.blue;
-
                 }
-                //holdRenderer.material.color = Color.red;
             }
         }
     }
@@ -82,10 +88,8 @@ public class AuraCtl : MonoBehaviour
                     obj.GetComponent<OutlineBehaviour>().enabled = false;
                 }
 
-                //obj.GetComponent<Renderer>().material.color = initHoldColor;
 
             }
-            //holdRenderer.material.color = initHoldColor;
         }
     }
 }
