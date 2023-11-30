@@ -177,7 +177,7 @@ public class MoveObject : MonoBehaviour
         if (other.gameObject.tag == "UltraHundAria")
         {
             useUltraHundFlag = true;
-            Debug.Log("ウルトラ使える");
+            //Debug.Log("ウルトラ使える");
         }
     }
 
@@ -188,7 +188,7 @@ public class MoveObject : MonoBehaviour
             useUltraHundFlag = false;
             isDrag = false;
             DestroyBeam();
-            Debug.Log("ウルトラ使えない");
+            //Debug.Log("ウルトラ使えない");
         }
     }
 }

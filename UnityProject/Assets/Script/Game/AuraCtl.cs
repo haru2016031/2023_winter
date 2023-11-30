@@ -62,7 +62,6 @@ public class AuraCtl : MonoBehaviour
                 {
                     // this（自分自身のTransform）とobjの距離を計算
                     float distance = Vector3.Distance(other.transform.position, obj.transform.position);
-                    Debug.Log(distance);
                     // 一定の距離以内にいる場合
                     if (distance < ultDistance)
                     {
