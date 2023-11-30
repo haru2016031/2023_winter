@@ -6,6 +6,8 @@ public class CameraMove : MonoBehaviour
 {
     public Camera mainCam;
     public Camera subCam;
+    public GameObject player;
+    private Animator animator;
     public bool switchCamflag;
 
     private float speed = 0.1f;
@@ -18,6 +20,8 @@ public class CameraMove : MonoBehaviour
         mainCam.enabled = true;
         subCam.enabled = false;
         switchCamflag = false;
+        player.GetComponent<GameObject>();
+        animator = player.GetComponent<Animator>();
     }
     void Update()
     {
@@ -37,6 +41,7 @@ public class CameraMove : MonoBehaviour
                 switchCamflag = true;
                 mainCam.enabled = false;
                 subCam.enabled = true;
+                animator.SetTrigger("ChangeAnimatioin");
             }
         }
     }

@@ -12,7 +12,7 @@ public class PlayerAnimationCtl : MonoBehaviour
         // アニメーションの取得
         animator = GetComponent<Animator>();
 
-        cameraMove =  new CameraMove();
+        cameraMove =  GetComponent<CameraMove>();
 
         if (SceneManager.GetActiveScene().name == "TitleScene")
         {
@@ -26,7 +26,13 @@ public class PlayerAnimationCtl : MonoBehaviour
 
     private void Update()
     {
-        animator.SetTrigger("ChangeAnimatioin");
+        if (cameraMove != null)
+        {
+            if (cameraMove.switchCamflag == true)
+            {
+                animator.SetTrigger("ChangeAnimatioin");
+            }
+        }
     }
 
     void PlayAnimation(string animationName)
