@@ -32,6 +32,7 @@ public class CameraController : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
+
     }
 
     // Update is called once per frame
@@ -51,7 +52,6 @@ public class CameraController : MonoBehaviour
 
     private void RotateCamera()
     {
-        Cursor.lockState = CursorLockMode.Confined;
 
         // ƒJƒƒ‰‚Ì‰ñ“]‚ğ§ŒÀ
         float horizontalInput = Input.GetAxis("Mouse X");

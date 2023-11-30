@@ -18,6 +18,8 @@ public class MoveObject : MonoBehaviour
 
     public bool useUltraHundFlag;
     private bool isFreeze = false;
+    [SerializeField]
+    private float ultRange = 20.0f;     //ウルハンの使用範囲
 
     void Start()
     {
@@ -61,36 +63,32 @@ public class MoveObject : MonoBehaviour
                 DestroyBeam();
             }
 
-            if (selectObject != null)
+            if (isDrag)
             {
                 // オブジェクトをマウスの位置に移動させ、ビームを更新
                 Vector3 mousePos = Input.mousePosition;
                 mousePos.z = objectDepth;
+                
                 objectDepth += Input.GetAxis("Mouse ScrollWheel") * 5.0f;
                 MoveObjectWithRigidbody(Camera.main.ScreenToWorldPoint(mousePos));
 
                 UpdateBeamPos();
 
-                if (!isDrag)
-                {
-                    // ドラッグが終了したら選択を解除
-                    selectObject = null;
-                }
+                // ビームの長さを再計算
+                float distance = Vector3.Distance(playerTrans.position, selectObject.transform.position);
+                float beamLength = distance / 30.0f;
+                UpdateBeamLength(beamLength);
 
-                if (selectObject != null && beamInstance != null)
-                {
-                    // ビームの長さを再計算
-                    float distance = Vector3.Distance(playerTrans.position, selectObject.transform.position);
-                    float beamLength = distance / 30.0f;
-                    UpdateBeamLength(beamLength);
-                }
-            }
-
-            // 掴んでいる状態で切り替え
-            if (isDrag == true)
-            {
+                //掴んでるオブジェクトの固定処理
                 FreezeObject();
             }
+            else
+            {
+                selectObject = null;
+                DestroyBeam();
+            }
+
+
         }
     }
 
@@ -101,15 +99,18 @@ public class MoveObject : MonoBehaviour
         Vector3 direction = selectObject.transform.position - playerTrans.position;
         DestroyBeam(); // 既存のビームを削除
         beamInstance = Instantiate(beamPrefab, spawnPosition, Quaternion.LookRotation(direction));
-
-        // ビームの長さの初期設定
-        float distance = Vector3.Distance(playerTrans.position, selectObject.transform.position);
-        float beamLength = distance / 10.0f;
-        UpdateBeamLength(beamLength);
     }
 
     void MoveObjectWithRigidbody(Vector3 targetPosition)
     {
+        //プレイヤーから一定距離離れていたら、以下処理を無視
+        var distance = Vector3.Distance(transform.position, targetPosition);
+        if(ultRange <= distance)
+        {
+            isDrag = false;
+            DestroyBeam();
+            return;
+        }
         // Rigidbodyを使ってオブジェクトを移動させる処理
         Vector3 moveDirection = (targetPosition - selectObject.transform.position).normalized;
 
@@ -127,15 +128,15 @@ public class MoveObject : MonoBehaviour
     {
         if(Input.GetMouseButtonDown(0))
         {
-            if(selectObject != null)
+
+            isFreeze = !isFreeze;
+            Rigidbody rb = selectObject.GetComponent<Rigidbody>();
+            if(rb != null)
             {
-                isFreeze = !isFreeze;
-                Rigidbody rb = selectObject.GetComponent<Rigidbody>();
-                if(rb != null)
-                {
-                    rb.constraints = isFreeze ? RigidbodyConstraints.FreezeAll : RigidbodyConstraints.None;
-                }
+                //rb.constraints = isFreeze ? RigidbodyConstraints.FreezeAll : RigidbodyConstraints.None;
+                rb.isKinematic = isFreeze ? true : false;
             }
+   
         }
     }
 
@@ -145,7 +146,6 @@ public class MoveObject : MonoBehaviour
         if (beamInstance != null)
         {
             Vector3 spawnPosition = playerTrans.position;
-            Vector3 targetPosition = spawnPosition + (selectObject.transform.position - playerTrans.position);
             Vector3 direction = selectObject.transform.position - playerTrans.position;
             beamInstance.transform.position = spawnPosition;
             beamInstance.transform.rotation = Quaternion.LookRotation(direction);
@@ -177,7 +177,7 @@ public class MoveObject : MonoBehaviour
         if (other.gameObject.tag == "UltraHundAria")
         {
             useUltraHundFlag = true;
-            Debug.Log("ウルトラ使える");
+            //Debug.Log("ウルトラ使える");
         }
     }
 
@@ -188,7 +188,7 @@ public class MoveObject : MonoBehaviour
             useUltraHundFlag = false;
             isDrag = false;
             DestroyBeam();
-            Debug.Log("ウルトラ使えない");
+            //Debug.Log("ウルトラ使えない");
         }
     }
 }

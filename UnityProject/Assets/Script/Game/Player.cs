@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     public float moveSpeed = 1.0f;  //移動速度
     public float jumpForce = 10.0f; // ジャンプ力
     public float pushForce = 10f;   // 吹っ飛ばす力
+    public float pushHeight = 10f;
     public float cooldownTime = 2f; // 判定を取る間隔のクールダウン時間
 
     private bool isGrounded = true; // 地面に接地しているかどうかを示すフラグ
@@ -50,7 +51,7 @@ public class Player : MonoBehaviour
 
         if (isGrounded && Input.GetButtonDown("Jump"))
         {
-            
+
             // ジャンプアクションを実行
             Jump();
 
@@ -85,17 +86,17 @@ public class Player : MonoBehaviour
     //ジャンプ
     void Jump()
     {
-        if(pRigid.velocity.y <= 0)
+        if (pRigid.velocity.y <= 0)
         {
             pRigid.velocity = Vector3.zero;
         }
 
         jumpCnt++;
 
-        if(jumpCnt >= 2)
+        if (jumpCnt >= 2)
         {
             // プレイヤーに上向きの力を加えてジャンプ
-            pRigid.AddForce(Vector3.up * jumpForce*2, ForceMode.Impulse);
+            pRigid.AddForce(Vector3.up * jumpForce * 2, ForceMode.Impulse);
 
         }
         else
@@ -120,7 +121,7 @@ public class Player : MonoBehaviour
         groundCollisionCnt++;
         isGrounded = true;
         jumpCnt = 0;
-        Debug.Log(groundCollisionCnt);
+        //Debug.Log(groundCollisionCnt);
     }
 
     public void JumpCollisionExit()
@@ -140,25 +141,25 @@ public class Player : MonoBehaviour
         if (collision.gameObject.CompareTag("CheckPointCollider"))
         {
             //現在地点を保持
-            checkPPos = pTrans.position + new Vector3(0,2,0);
+            checkPPos = pTrans.position + new Vector3(0, 2, 0);
         }
 
         if (collision.tag == "MoveFloor")
         {
             Debug.Log("入る" + Time.time);
-            this.gameObject.transform.SetParent(collision.gameObject.transform.parent.parent.transform,true);
+            this.gameObject.transform.SetParent(collision.gameObject.transform.parent.parent.transform, true);
             moveFloorTriggerCnt++;
         }
 
-        if(collision.tag == "Balloon")
+        if (collision.tag == "Balloon")
         {
             isGrounded = true;
             jumpCnt++;
         }
 
-        if(canCollide && collision.tag == "Rock")
+        if (canCollide && collision.tag == "Push")
         {
-            PushRock(collision);
+            Push(collision);
         }
 
     }
@@ -168,7 +169,7 @@ public class Player : MonoBehaviour
         if (collision.tag == "MoveFloor")
         {
             Debug.Log("出た" + Time.time);
-            if(moveFloorTriggerCnt == 1)
+            if (moveFloorTriggerCnt == 1)
             {
                 this.gameObject.transform.parent = null;
             }
@@ -179,7 +180,7 @@ public class Player : MonoBehaviour
     void Dead()
     {
         //高さが一定より下がるまたはRキーを押すことでプレイヤーリスポーン
-        if(pTrans.position.y <= -20.0f || Input.GetKeyDown(KeyCode.R))
+        if (pTrans.position.y <= -20.0f || Input.GetKeyDown(KeyCode.R))
         {
             pTrans.position = checkPPos;
             pRigid.velocity = Vector3.zero;
@@ -191,22 +192,42 @@ public class Player : MonoBehaviour
 
     }
 
-    void PushRock(Collider collision)
+    void Push(Collider collision)
     {
         // 判定を取った後、クールダウンを開始
         canCollide = false;
         lastCollisionTime = Time.time;
 
         // 衝突したオブジェクトにRigidbodyがアタッチされているか確認
-        Rigidbody rockRigidbody = collision.gameObject.GetComponent<Rigidbody>();
-        if (rockRigidbody != null)
+        Rigidbody rigidbody = collision.gameObject.GetComponent<Rigidbody>();
+        //if (rigidbody != null)
         {
             // プレイヤーの進行方向に力を加えて吹っ飛ばす
-            Vector3 pushDirection = collision.transform.forward; // 仮にプレイヤーの前方向とします
-            pushDirection.x = 0.6f;
-            Debug.Log(pushDirection);
+            //Debug.Log(pRigid.velocity);
+            //吹き飛ばす方向を求める(触れたものからプレイヤーの方向)
+            Vector3 toVec = GetAngleVec(gameObject,collision.gameObject);
+
+            //Y方向を足す
+            toVec = toVec + new Vector3(0, pushHeight, 0);
             pRigid.velocity = Vector3.zero;
-            pRigid.AddForce(pushDirection * pushForce, ForceMode.Impulse);
+
+            //ふきとべええ
+            pRigid.AddForce(toVec * pushForce, ForceMode.Impulse); Vector3 pushDirection = -pRigid.velocity; // プレイヤーの速度ベクトルの逆方向
+            //Debug.Log(toVec);
+            //pushDirection.x = 0.6f;
+            //pRigid.velocity = Vector3.zero;
+            //pRigid.AddForce(pushDirection * pushForce, ForceMode.Impulse);
         }
     }
-}
+
+    Vector3 GetAngleVec(GameObject _from, GameObject _to)
+    {
+        //高さの概念を入れないベクトルを作る
+        Vector3 fromVec = new Vector3(_from.transform.position.x, 0, _from.transform.position.z);
+        Vector3 toVec = new Vector3(_to.transform.position.x, 0, _to.transform.position.z);
+        Debug.Log((fromVec, toVec));
+        var n = Vector3.Normalize(toVec - fromVec);
+        Debug.Log(n);
+        return n;
+    }
+};
