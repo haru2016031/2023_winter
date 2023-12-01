@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
     private int moveFloorTriggerCnt;//トリガー回数
     private bool canCollide = true; // 岩との判定を取ることができるかどうかのフラグ
     private float lastCollisionTime; // 最後に判定を取った時間リガー回数
+    private float lastYpos;
     // se
     public AudioClip jumpSE;
     AudioSource jumpSource;
@@ -47,7 +48,7 @@ public class Player : MonoBehaviour
 
         Dead();
 
-        Fall();
+        FallCheck();
 
         if (isGrounded && Input.GetButtonDown("Jump"))
         {
@@ -187,9 +188,25 @@ public class Player : MonoBehaviour
         }
     }
 
-    void Fall()
+    void FallCheck()
     {
+        // 現在の位置
+        Vector3 nowPos = transform.position;
 
+        // オブジェクトがあるかどうか
+        bool isGround = Physics.Raycast(nowPos, Vector3.down, 0.1f);
+
+        // 落下判定
+        if(!isGround)
+        {
+            if(nowPos.y < lastYpos - 0.1f)
+            {
+                Debug.Log("落下");
+            }
+        }
+
+        // y座標の保存
+        lastYpos = nowPos.y;
     }
 
     void Push(Collider collision)
