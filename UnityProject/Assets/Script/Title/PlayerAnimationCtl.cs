@@ -26,13 +26,7 @@ public class PlayerAnimationCtl : MonoBehaviour
 
     private void Update()
     {
-        if (cameraMove != null)
-        {
-            if (cameraMove.switchCamflag == true)
-            {
-                animator.SetTrigger("ChangeAnimatioin");
-            }
-        }
+
     }
 
     void PlayAnimation(string animationName)
