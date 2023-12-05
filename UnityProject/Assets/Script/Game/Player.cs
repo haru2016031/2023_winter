@@ -22,19 +22,27 @@ public class Player : MonoBehaviour
     private bool canCollide = true; // 岩との判定を取ることができるかどうかのフラグ
     private float lastCollisionTime; // 最後に判定を取った時間リガー回数
     private float lastYpos;
+    private bool isFall = true;
+
     // se
     public AudioClip jumpSE;
-    AudioSource jumpSource;
+    public AudioClip fallVoiceSE;
+    public AudioClip landingSE;
+    public AudioSource jumpSource;
+    public AudioSource fallSource;
+    public AudioSource landingSource;
+
     void Start()
     {
         pRigid = GetComponent<Rigidbody>();
         pTrans = GetComponent<Transform>();
-        jumpSource = GetComponent<AudioSource>();
-        jumpSource.volume = 0.01f;
         defPos = pTrans.position;
         checkPPos = defPos;
         moveFloorTriggerCnt = 0;
         groundCollisionCnt = 0;
+        jumpSource.volume = 0.5f;
+        fallSource.volume = 0.5f;
+        landingSource.volume = 0.5f;
     }
 
     // Update is called once per frame
@@ -56,6 +64,7 @@ public class Player : MonoBehaviour
             // ジャンプアクションを実行
             Jump();
 
+            // ジャンプSEの追加
             jumpSource.PlayOneShot(jumpSE);
         }
 
@@ -191,19 +200,34 @@ public class Player : MonoBehaviour
     void FallCheck()
     {
         // 現在の位置
-        Vector3 nowPos = transform.position;
+        Vector3 nowPos = transform.position + new Vector3(0.0f,0.5f,-1.5f);
 
         // オブジェクトがあるかどうか
-        bool isGround = Physics.Raycast(nowPos, Vector3.down, 0.1f);
+        bool isGround = Physics.Raycast(nowPos, Vector3.down, 0.5f);
 
         // 落下判定
         if(!isGround)
         {
-            if(nowPos.y < lastYpos - 0.1f)
+            if(!isFall && nowPos.y < lastYpos - 0.3f)
             {
+                isFall = true;
+                fallSource.PlayOneShot(fallVoiceSE);               
                 Debug.Log("落下");
             }
         }
+        else 
+        {
+            if(isFall)
+            {
+                isFall = false;
+                landingSource.PlayOneShot(landingSE);
+                fallSource.Stop();
+                Debug.Log("着地");
+            }
+ 
+        }
+
+        Debug.DrawRay(nowPos, Vector3.down * 1.5f, Color.green);
 
         // y座標の保存
         lastYpos = nowPos.y;
