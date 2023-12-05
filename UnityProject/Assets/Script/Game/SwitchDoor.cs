@@ -39,10 +39,10 @@ public class SwitchDoor: MonoBehaviour
 
     private void OnEnable()
     {
-        SwitchManager.OnDoorOpen += DoorOpen;
+        SwitchManager.OnSwitchFunc += DoorOpen;
     }
     private void OnDisable()
     {
-        SwitchManager.OnDoorOpen -= DoorOpen;
+        SwitchManager.OnSwitchFunc -= DoorOpen;
     }
 }

@@ -20,6 +20,7 @@ public class MoveObject : MonoBehaviour
     private bool isFreeze = false;
     [SerializeField]
     private float ultRange = 20.0f;     //ウルハンの使用範囲
+    private Vector3 oldMousePos;
 
     void Start()
     {
@@ -65,12 +66,8 @@ public class MoveObject : MonoBehaviour
 
             if (isDrag)
             {
-                // オブジェクトをマウスの位置に移動させ、ビームを更新
-                Vector3 mousePos = Input.mousePosition;
-                mousePos.z = objectDepth;
                 
-                objectDepth += Input.GetAxis("Mouse ScrollWheel") * 5.0f;
-                MoveObjectWithRigidbody(Camera.main.ScreenToWorldPoint(mousePos));
+                MoveObjectWithRigidbody();
 
                 UpdateBeamPos();
 
@@ -101,15 +98,25 @@ public class MoveObject : MonoBehaviour
         beamInstance = Instantiate(beamPrefab, spawnPosition, Quaternion.LookRotation(direction));
     }
 
-    void MoveObjectWithRigidbody(Vector3 targetPosition)
+    void MoveObjectWithRigidbody()
     {
+        // オブジェクトをマウスの位置に移動させ、ビームを更新
+        Vector3 mousePos = Input.mousePosition;
+        objectDepth += Input.GetAxis("Mouse ScrollWheel") * 5.0f;
+        mousePos.z = objectDepth;
+        var targetPosition = Camera.main.ScreenToWorldPoint(mousePos);
+
         //プレイヤーから一定距離離れていたら、以下処理を無視
         var distance = Vector3.Distance(transform.position, targetPosition);
-        if(ultRange <= distance)
+        if(ultRange < distance)
         {
-            isDrag = false;
-            DestroyBeam();
-            return;
+            objectDepth -= Input.GetAxis("Mouse ScrollWheel") * 5.0f;
+
+            targetPosition = oldMousePos;
+        }
+        if(oldMousePos != targetPosition)
+        {
+            oldMousePos = targetPosition;
         }
         // Rigidbodyを使ってオブジェクトを移動させる処理
         Vector3 moveDirection = (targetPosition - selectObject.transform.position).normalized;

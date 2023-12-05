@@ -34,7 +34,7 @@ public class SwitchController : MonoBehaviour
             audioSource.PlayOneShot(audioClip);
             
             isLowered = true;
-            SwitchManager.DoorOpen();
+            SwitchManager.SwitchFunc();
         }
 
     }
