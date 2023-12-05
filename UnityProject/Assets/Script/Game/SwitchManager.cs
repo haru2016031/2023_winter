@@ -5,9 +5,9 @@ using System;
 
 public class SwitchManager : MonoBehaviour
 {
-    public static event Action OnDoorOpen;
-    public static void DoorOpen()
+    public static event Action OnSwitchFunc;
+    public static void SwitchFunc()
     {
-        OnDoorOpen?.Invoke();
+        OnSwitchFunc?.Invoke();
     }
 }

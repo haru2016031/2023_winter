@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class UltObj : MonoBehaviour
 {
+    [SerializeField]
+    private bool respawnFlag = true;
     private Vector3 inistPos;
     private Rigidbody rb;
     private float fallHeight;
@@ -19,12 +21,19 @@ public class UltObj : MonoBehaviour
     {
         if(transform.position.y < fallHeight)
         {
-            transform.position = inistPos;
-
-            if(rb != null)
+            if (respawnFlag)
             {
-                rb.velocity = Vector3.zero;
-                rb.angularVelocity = Vector3.zero;
+                transform.position = inistPos;
+
+                if(rb != null)
+                {
+                    rb.velocity = Vector3.zero;
+                    rb.angularVelocity = Vector3.zero;
+                }
+            }
+            else
+            {
+                Destroy(gameObject);
             }
         }
 
@@ -37,5 +46,10 @@ public class UltObj : MonoBehaviour
         {
 
         }
+    }
+
+    public void SetRespawnFlag(bool flag)
+    {
+        respawnFlag = flag;
     }
 }
