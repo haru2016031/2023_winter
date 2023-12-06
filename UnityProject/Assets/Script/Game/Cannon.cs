@@ -8,11 +8,20 @@ public class Cannon : MonoBehaviour
     public Transform spawnPoint; // ”­ŽËˆÊ’u
     public float shootingForce = 10f; // ”­ŽË‚·‚é—Í
 
+    public AudioClip audioClip;
+    AudioSource audioSource;
+
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Shoot();
+            audioSource.PlayOneShot(audioClip);
         }
     }
 
