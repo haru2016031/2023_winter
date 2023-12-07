@@ -1,14 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
 
     public Text timerText;
-    private float timer;
+    public float timer;
     private static Timer instance;
+    private bool timerRunning = true;
 
     private void Awake()
     {
@@ -37,15 +39,26 @@ public class Timer : MonoBehaviour
 
     public void Update()
     {
-        timer+=Time.deltaTime;
-        var time = timer;
-        int minutes = Mathf.FloorToInt(time / 60.0f);
-        int seconds = Mathf.FloorToInt(time % 60.0f);
-        //Debug.Log(timer);
-        //Debug.Log(minutes);
-        if (timerText)
+        if (timerRunning)
         {
-            timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+            timer += Time.deltaTime;
+            var time = timer;
+            int minutes = Mathf.FloorToInt(time / 60.0f);
+            int seconds = Mathf.FloorToInt(time % 60.0f);
+            if (timerText)
+            {
+                timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+            }
         }
+    }
+
+    public float GetTimer()
+    {
+        return timer;
+    }
+
+    public void StopTimer()
+    {
+        timerRunning = false;
     }
 }

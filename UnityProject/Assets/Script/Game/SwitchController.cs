@@ -73,6 +73,7 @@ public class SwitchController : MonoBehaviour
         //ƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚é•‚Ü‚¾’e‚ğ‘Å‚Á‚Ä‚È‚¢ê‡
         if (transform.position == m_targetPosition && !isStarted)
         {
+            audioSource.PlayOneShot(audioClip);
             GetComponentInParent<SwitchManager>().SwitchFunc();
             isStarted = true;
         }
@@ -111,7 +112,6 @@ public class SwitchController : MonoBehaviour
             newPosition.y -= lowerAmount;
             m_targetPosition = newPosition;
 
-            audioSource.PlayOneShot(audioClip);
 
             isPressed = true;
         }
