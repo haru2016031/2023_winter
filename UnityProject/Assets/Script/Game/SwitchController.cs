@@ -7,6 +7,12 @@ public enum TagList
     Player
 
 }
+
+public enum DirList
+{
+    Local,
+    Global
+}
 public class SwitchController : MonoBehaviour
 {
     public Color newColor = Color.red;  // 変更後の色
@@ -25,6 +31,8 @@ public class SwitchController : MonoBehaviour
     private Vector3 m_targetPosition;   // 押される上限
     private float currentTime;          //計測時間
     private float limitTime = 0.2f;     //離れた判定の猶予時間
+    [SerializeField]
+    private DirList dirFlag = DirList.Local;
 
     private void Start()
     {
@@ -73,6 +81,7 @@ public class SwitchController : MonoBehaviour
         //ボタンが押される＆まだ弾を打ってない場合
         if (transform.position == m_targetPosition && !isStarted)
         {
+            audioSource.PlayOneShot(audioClip);
             GetComponentInParent<SwitchManager>().SwitchFunc();
             isStarted = true;
         }
@@ -106,12 +115,19 @@ public class SwitchController : MonoBehaviour
             // 新しい色に変更
             objectRenderer.material.color = newColor;
 
-            // 下に移動
-            Vector3 newPosition = defPos;
-            newPosition.y -= lowerAmount;
-            m_targetPosition = newPosition;
-
-            audioSource.PlayOneShot(audioClip);
+            //localかglobalどちらの方向を使うか
+            if (dirFlag == DirList.Local)
+            {
+                Vector3 localDown = transform.TransformDirection(Vector3.down); // ローカルY方向へのベクトル
+                m_targetPosition = defPos + localDown * lowerAmount;
+            }
+            else
+            {
+                // 下に移動
+                Vector3 newPosition = defPos;
+                newPosition.y -= lowerAmount;
+                m_targetPosition = newPosition;
+            }
 
             isPressed = true;
         }
