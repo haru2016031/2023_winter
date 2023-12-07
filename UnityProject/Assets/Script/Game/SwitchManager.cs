@@ -5,8 +5,8 @@ using System;
 
 public class SwitchManager : MonoBehaviour
 {
-    public static event Action OnSwitchFunc;
-    public static void SwitchFunc()
+    public  event Action OnSwitchFunc;
+    public  void SwitchFunc()
     {
         OnSwitchFunc?.Invoke();
     }

@@ -27,13 +27,11 @@ public class AuraCtl : MonoBehaviour
         {
             foreach (var obj in holdObjects)
             {
-                holdRenderer = obj.GetComponent<Renderer>();
                 if(obj.GetComponent<OutlineBehaviour>())
                 {
                   obj.GetComponent<OutlineBehaviour>().enabled = false;
                 }
 
-                initHoldColor = holdRenderer.material.color;
             }
         }
 
