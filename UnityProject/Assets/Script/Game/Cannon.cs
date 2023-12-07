@@ -4,25 +4,24 @@ using UnityEngine;
 
 public class Cannon : MonoBehaviour
 {
+    public ParticleSystem effectPrefab; // エフェクトのプレハブ
+    private ParticleSystem effectInstance; // エフェクトのインスタンス
     public GameObject shootObj; // 発射するオブジェクトのプレハブ
     public Transform spawnPoint; // 発射位置
     public float shootingForce = 10f; // 発射する力
 
-    public AudioClip audioClip;
-    AudioSource audioSource;
-
-    void Start()
+    void PlayEffect()
     {
-        audioSource = GetComponent<AudioSource>();
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
+        // エフェクトのプレハブが設定されている場合
+        if (effectPrefab != null)
         {
-            Shoot();
-            audioSource.PlayOneShot(audioClip);
+            // エフェクトのプレハブから新しいインスタンスを生成
+            effectInstance = Instantiate(effectPrefab, spawnPoint.position, Quaternion.identity);
+
+            // エフェクトが再生し終わったらインスタンスを破棄
+            Destroy(effectInstance.gameObject, effectInstance.main.duration);
         }
+
     }
 
     void Shoot()
@@ -34,7 +33,13 @@ public class Cannon : MonoBehaviour
         if (projectileRb != null)
         {
             projectile.GetComponent<UltObj>().SetRespawnFlag(false);
-            projectileRb.AddForce(transform.forward * shootingForce, ForceMode.Impulse);
+            var dir = transform.forward + new Vector3(0, 0.3f, 0);
+            projectileRb.AddForce(dir * shootingForce, ForceMode.Impulse);
+            PlayEffect();
         }
+    }
+    private void OnEnable()
+    {
+        GetComponentInParent<SwitchManager>().OnSwitchFunc += Shoot;
     }
 }

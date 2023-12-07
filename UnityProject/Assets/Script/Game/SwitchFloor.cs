@@ -6,10 +6,6 @@ public class SwitchFloor : MonoBehaviour
 {
     private Vector3 m_targetPosition;
     private bool m_bMove = false;
-    [SerializeField]
-    private Vector3 m_moveDir = Vector3.up; //ˆÚ“®•ûŒü
-    [SerializeField]
-    private float m_speed = 5f; //ˆÚ“®‘¬“x
     [SerializeField] private GameObject endObj;
 
 
@@ -44,10 +40,6 @@ public class SwitchFloor : MonoBehaviour
 
     private void OnEnable()
     {
-        SwitchManager.OnSwitchFunc += FloorMove;
-    }
-    private void OnDisable()
-    {
-        SwitchManager.OnSwitchFunc -= FloorMove;
+        GetComponentInParent<SwitchManager>().OnSwitchFunc += FloorMove;
     }
 }
