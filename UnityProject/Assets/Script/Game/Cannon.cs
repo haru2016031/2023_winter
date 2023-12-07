@@ -9,6 +9,13 @@ public class Cannon : MonoBehaviour
     public GameObject shootObj; // 発射するオブジェクトのプレハブ
     public Transform spawnPoint; // 発射位置
     public float shootingForce = 10f; // 発射する力
+    public AudioClip audioClip;
+    AudioSource audioSource;
+
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     void PlayEffect()
     {
@@ -35,6 +42,7 @@ public class Cannon : MonoBehaviour
             projectile.GetComponent<UltObj>().SetRespawnFlag(false);
             var dir = transform.forward + new Vector3(0, 0.3f, 0);
             projectileRb.AddForce(dir * shootingForce, ForceMode.Impulse);
+            audioSource.PlayOneShot(audioClip);
             PlayEffect();
         }
     }
