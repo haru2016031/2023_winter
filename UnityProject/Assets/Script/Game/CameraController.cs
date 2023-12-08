@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public float rotateSpeed = 2.0f;            //回転の速さ
-
     private GameObject mainCamera;              //メインカメラ格納用
     private GameObject playerObject;            //回転の中心となるプレイヤー格納用
 

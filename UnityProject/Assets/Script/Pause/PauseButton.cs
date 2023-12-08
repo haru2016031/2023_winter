@@ -28,10 +28,19 @@ public class PauseButton : MonoBehaviour
     {
         GameObject playerController = GameObject.FindWithTag("Player");
         playerComponent = playerController.GetComponent<Player>();
+        Rigidbody playerRb = playerController.GetComponent<Rigidbody>();
+
         // プレイヤーを初期座標に戻す
         Time.timeScale = 1f;
+        playerRb.velocity = Vector3.zero;
+        playerRb.angularVelocity = Vector3.zero;
+
         playerComponent.transform.position = defPos;
+        playerRb.Sleep(); // Rigidbodyの運動を停止
+
+        Cursor.lockState = CursorLockMode.Locked;
         Destroy(this.gameObject);
+
     }
     public void ExitCanvas()
     {
