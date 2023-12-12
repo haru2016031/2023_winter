@@ -23,5 +23,4 @@ public class Fade : MonoBehaviour
         }
 
         image.gameObject.SetActive(false);
-    }
-}
+    }}

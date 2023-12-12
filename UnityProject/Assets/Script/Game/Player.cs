@@ -56,8 +56,6 @@ public class Player : MonoBehaviour
 
         Dead();
 
-        FallCheck();
-
         if (isGrounded && Input.GetButtonDown("Jump"))
         {
 
@@ -145,6 +143,40 @@ public class Player : MonoBehaviour
         groundCollisionCnt--;
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        // 現在の位置
+        Vector3 nowPos = transform.position;
+
+        // オブジェクトがあるかどうか
+        bool isGround = collision.gameObject;
+
+        // 落下判定
+        if (!isGround)
+        {
+            if (!isFall && nowPos.y < lastYpos - 3.0f)
+            {
+                isFall = true;
+                fallSource.PlayOneShot(fallVoiceSE);
+                Debug.Log("落下");
+            }
+        }
+        else
+        {
+            if (isFall)
+            {
+                isFall = false;
+                landingSource.PlayOneShot(landingSE);
+                fallSource.Stop();
+                Debug.Log("着地");
+            }
+
+        }
+
+        // y座標の保存
+        lastYpos = nowPos.y;
+    }
+
     private void OnTriggerEnter(Collider collision)
     {
         // 衝突したオブジェクトがチェックポイントである場合
@@ -195,42 +227,6 @@ public class Player : MonoBehaviour
             pTrans.position = checkPPos;
             pRigid.velocity = Vector3.zero;
         }
-    }
-
-    void FallCheck()
-    {
-        // 現在の位置
-        Vector3 nowPos = transform.position + new Vector3(0.0f,0.5f,-1.5f);
-
-        // オブジェクトがあるかどうか
-        bool isGround = Physics.Raycast(nowPos, Vector3.down, 0.5f);
-
-        // 落下判定
-        if(!isGround)
-        {
-            if(!isFall && nowPos.y < lastYpos - 0.3f)
-            {
-                isFall = true;
-                fallSource.PlayOneShot(fallVoiceSE);               
-                Debug.Log("落下");
-            }
-        }
-        else 
-        {
-            if(isFall)
-            {
-                isFall = false;
-                landingSource.PlayOneShot(landingSE);
-                fallSource.Stop();
-                Debug.Log("着地");
-            }
- 
-        }
-
-        Debug.DrawRay(nowPos, Vector3.down * 1.5f, Color.green);
-
-        // y座標の保存
-        lastYpos = nowPos.y;
     }
 
     void Push(Collider collision)
