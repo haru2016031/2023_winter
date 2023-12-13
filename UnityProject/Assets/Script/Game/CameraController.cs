@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public float rotateSpeed = 2.0f;            //回転の速さ
 
     private GameObject mainCamera;              //メインカメラ格納用
     private GameObject playerObject;            //回転の中心となるプレイヤー格納用
@@ -75,5 +74,10 @@ public class CameraController : MonoBehaviour
         //カメラはプレイヤーと同じ位置にする
         mainCamera.transform.position += playerObject.transform.position - oldTrans;
         oldTrans = playerObject.transform.position;
+    }
+
+    public void SetCameraSpeed(float value)
+    {
+        rotationSpeed = value;
     }
 }
