@@ -11,13 +11,14 @@ public class PauseScene : MonoBehaviour
 	private GameObject pauseUIInstance;
 
 	private GameObject exitUI;
+	private GameObject settingUI;
 
 	// Update is called once per frame
 	void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.Escape))
 		{
-            if (!exitUI)
+            if (!exitUI && !settingUI)
             {
 				if (pauseUIInstance == null)
 				{
@@ -37,6 +38,7 @@ public class PauseScene : MonoBehaviour
             else
             {
 				Destroy(exitUI);
+				Destroy(settingUI);
 
             }
 		}
@@ -45,5 +47,10 @@ public class PauseScene : MonoBehaviour
 	public void SetExitUI(GameObject obj)
     {
 		exitUI = obj;
+    }
+
+	public void SetSettingUI(GameObject obj)
+    {
+		settingUI = obj;
     }
 }

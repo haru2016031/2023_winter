@@ -16,31 +16,24 @@ public class PauseButton : MonoBehaviour
     private Button restartButton;
 
     [SerializeField]
-    private GameObject exitPrefab;
-
+    private GameObject exitPrefab;      //タイトルへ戻る画面
     private GameObject exitInstance;
+    
+    [SerializeField]
+    private GameObject settingPrefab;      //設定画面
+    private GameObject settingInstance;
 
     private Player playerComponent;
-
-    private Vector3 defPos = new Vector3(-15.0f, -3.0f, -14.0f);
+    private Vector3 defPos = new Vector3(-15.0f, -3.0f, -14.0f);    //プレイヤーの初期値
 
     public void ResetPlayer()
     {
         GameObject playerController = GameObject.FindWithTag("Player");
         playerComponent = playerController.GetComponent<Player>();
-        Rigidbody playerRb = playerController.GetComponent<Rigidbody>();
-
         // プレイヤーを初期座標に戻す
         Time.timeScale = 1f;
-        playerRb.velocity = Vector3.zero;
-        playerRb.angularVelocity = Vector3.zero;
-
         playerComponent.transform.position = defPos;
-        playerRb.Sleep(); // Rigidbodyの運動を停止
-
-        Cursor.lockState = CursorLockMode.Locked;
         Destroy(this.gameObject);
-
     }
     public void ExitCanvas()
     {
@@ -49,18 +42,22 @@ public class PauseButton : MonoBehaviour
         pauseSceneObject.GetComponent<PauseScene>().SetExitUI(exitInstance);
     }
 
+    public void SettingCanvas()
+    {
+        GameObject pauseSceneObject = GameObject.FindWithTag("MainCamera");
+        settingInstance = Instantiate(settingPrefab);
+        pauseSceneObject.GetComponent<PauseScene>().SetSettingUI(settingInstance);
+    }
+
     public void ToTitle()
     {
-
         Time.timeScale = 1f;
         SceneManager.LoadScene("TitleScene");
-
     }
 
     public void CancelToTitle()
     {
         Destroy(this.gameObject);
-
     }
 
     public void DestroyExit()

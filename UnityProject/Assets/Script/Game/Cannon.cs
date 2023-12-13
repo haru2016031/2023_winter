@@ -15,6 +15,7 @@ public class Cannon : MonoBehaviour
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        audioSource.volume = 0.5f;
     }
 
     void PlayEffect()
