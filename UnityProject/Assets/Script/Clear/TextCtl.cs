@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class TextCtl : MonoBehaviour
 {
@@ -14,15 +13,12 @@ public class TextCtl : MonoBehaviour
     private AudioSource audioSource;
     private bool clearTextSondFlag = false;
     private bool clearTimeSondFlag = false;
-    private float changeSceneTime;
-    private Fade fade;
     void Start()
     {
         clearText.enabled = false;
         clearTimeText.enabled = false;
         animator = player.GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
-        fade = GetComponent<Fade>();
     }
 
     void Update()
@@ -37,18 +33,6 @@ public class TextCtl : MonoBehaviour
                 clearTextSondFlag = true;
             }
             StartCoroutine(EnableClearTime(1.0f));
-
-            if (clearTimeText.enabled == true)
-            {
-
-                changeSceneTime += Time.deltaTime;
-
-                if (changeSceneTime >= 3.0f)
-                {
-                    SceneManager.LoadScene("TitleScene");
-                }
-            }
-            
         }
     }
 

@@ -2,10 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Audio;
+
 
 public class SettingUISlider : MonoBehaviour
 {
     CameraController controller;
+    [SerializeField] AudioMixer audioMixer;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,5 +26,16 @@ public class SettingUISlider : MonoBehaviour
     public void OnCameraSliderValueChanged(float value)
     {
         controller.SetCameraSpeed(value);
+    }
+
+    //BGM
+    public void SetAudioMixerMaster(float value)
+    {
+        //5íiäKï‚ê≥
+        value /= 5;
+        //-80~0Ç…ïœä∑
+        var volume = Mathf.Clamp(Mathf.Log10(value) * 20f, -80f, 0f);
+        //audioMixerÇ…ë„ì¸
+        audioMixer.SetFloat("Master", volume);
     }
 }
