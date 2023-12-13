@@ -148,11 +148,8 @@ public class Player : MonoBehaviour
         // 現在の位置
         Vector3 nowPos = transform.position;
 
-        // オブジェクトがあるかどうか
-        bool isGround = collision.gameObject;
-
         // 落下判定
-        if (!isGround)
+        if (!(collision.gameObject.CompareTag("Ground")))
         {
             if (!isFall && nowPos.y < lastYpos - 3.0f)
             {
