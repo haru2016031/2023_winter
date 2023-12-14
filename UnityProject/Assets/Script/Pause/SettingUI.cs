@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class SettingUI : MonoBehaviour
 {
     public RectTransform separatorPanelPrefab; // ‹æ•ªü—p‚Ìƒpƒlƒ‹‚ÌPrefab
