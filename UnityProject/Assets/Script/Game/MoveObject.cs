@@ -44,7 +44,7 @@ public class MoveObject : MonoBehaviour
             {
                 GameObject hitObject = hit.transform.gameObject;
 
-                if (Input.GetMouseButtonDown(1))
+                if (Input.GetButtonDown("Fire1"))
                 {
                     if (hitObject.CompareTag(holdTag))
                     {
@@ -133,7 +133,7 @@ public class MoveObject : MonoBehaviour
 
     void FreezeObject()
     {
-        if(Input.GetMouseButtonDown(0))
+        if(Input.GetButtonDown("Fire1"))
         {
 
             isFreeze = !isFreeze;

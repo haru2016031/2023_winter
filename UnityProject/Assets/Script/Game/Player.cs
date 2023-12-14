@@ -81,7 +81,6 @@ public class Player : MonoBehaviour
         // WASDキーの入力を取得
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
-
         // カメラの方向から、X-Z平面の単位ベクトルを取得
         Vector3 cameraForward = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
 
@@ -190,7 +189,7 @@ public class Player : MonoBehaviour
     void Dead()
     {
         //高さが一定より下がるまたはRキーを押すことでプレイヤーリスポーン
-        if (pTrans.position.y <= -20.0f || Input.GetKeyDown(KeyCode.R))
+        if (pTrans.position.y <= -20.0f || Input.GetButtonDown("Respawn"))
         {
             pTrans.position = checkPPos;
             pRigid.velocity = Vector3.zero;
