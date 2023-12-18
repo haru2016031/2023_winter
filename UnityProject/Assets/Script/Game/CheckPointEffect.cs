@@ -7,8 +7,12 @@ public class CheckPointEffect : MonoBehaviour
     public GameObject prefab;
 
     private float offsetY = 2.0f;
+    public AudioClip audioClip;
+    AudioSource audioSource;
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+        audioSource.volume = 0.3f;
     }
 
     void OnTriggerEnter(Collider collision)
@@ -17,6 +21,7 @@ public class CheckPointEffect : MonoBehaviour
         {
             Vector3 spawnPos = transform.position + new Vector3(0, offsetY, 0);
             ShowEffect(spawnPos, transform.rotation);
+            audioSource.PlayOneShot(audioClip);
         }
     }
 
@@ -29,6 +34,7 @@ public class CheckPointEffect : MonoBehaviour
     IEnumerator DestroyEffect(GameObject effect, float delay)
     {
         yield return new WaitForSeconds(delay);
+        audioSource.Stop();
         Destroy(effect); // エフェクトを削除
     }
 }
