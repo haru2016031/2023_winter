@@ -39,7 +39,6 @@ public class PauseButton : MonoBehaviour
     {
         GameObject pauseSceneObject = GameObject.FindWithTag("MainCamera");
         exitInstance = Instantiate(exitPrefab);
-        pauseSceneObject.GetComponent<PauseScene>().SetExitUI(exitInstance);
     }
 
     public void SettingCanvas()
