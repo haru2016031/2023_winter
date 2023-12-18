@@ -36,6 +36,7 @@ public class SettingUISlider : MonoBehaviour
         Transform cameraSliderObj = this.transform.Find("CameraSpeedSlider");
         cameraSpeedSlider = cameraSliderObj.GetComponent<Slider>();
         cameraSpeedSlider.value = cameraSpeed;
+        UpdateSliderValueText(cameraSpeedSlider, cameraSpeedText);
     }
 
     void SoundVolumeInit()
@@ -43,6 +44,7 @@ public class SettingUISlider : MonoBehaviour
         Transform sliderTrans = this.transform.Find("SoundVolumeSlider");
         soundVolumeSlider = sliderTrans.GetComponent<Slider>();
         soundVolumeSlider.value = soundValue;
+        UpdateSliderValueText(soundVolumeSlider, soundVolumeText);
     }
 
     //スライダーの変化で処理する関数
