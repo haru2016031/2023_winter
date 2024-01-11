@@ -8,7 +8,7 @@ public class WindMove : MonoBehaviour
     public Transform player;
     public Transform soundPos;
     AudioSource audioSource;
-
+    public AudioClip windSE;
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -17,9 +17,6 @@ public class WindMove : MonoBehaviour
 
     void Update()
     {
-        audioSource.Play();
-
-
         float audiodistance = audioSource.maxDistance;
         float playerdistance = Vector3.Distance(player.position, soundPos.position);
 
@@ -41,6 +38,16 @@ public class WindMove : MonoBehaviour
             // •—‚Ì•ûŒü‚É—Í‚ð‰Á‚¦‚é
             Vector3 windDirection = transform.forward;
             rb.AddForce(windDirection * windStrength);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.CompareTag("Player"))
+        {
+            {
+                audioSource.PlayOneShot(windSE);
+            } 
         }
     }
 }

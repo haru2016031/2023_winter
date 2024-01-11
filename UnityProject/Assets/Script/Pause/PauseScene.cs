@@ -31,8 +31,8 @@ public class PauseScene : MonoBehaviour
 					pauseUIInstance = GameObject.Instantiate(pauseUIPrefab) as GameObject;
 					Time.timeScale = 0f;
 					Cursor.lockState = CursorLockMode.None;
-					eventSystem.SetActive(false);
-					addES = this.transform.Find("EventSystem").gameObject;
+					//eventSystem.SetActive(false);
+					//addES = this.transform.Find("EventSystem").gameObject;
 				}
 				else
 				{
@@ -41,7 +41,7 @@ public class PauseScene : MonoBehaviour
 					Destroy(pauseUIInstance);
 					Time.timeScale = 1f;
 					Cursor.lockState = CursorLockMode.Locked;
-					eventSystem.SetActive(true);
+					//eventSystem.SetActive(true);
 				}
 			}
             else
@@ -49,7 +49,7 @@ public class PauseScene : MonoBehaviour
 				//設定シーンor出口シーン→ポーズシーン
 				Destroy(exitUI);
 				Destroy(settingUI);
-				addES.SetActive(true);
+				//addES.SetActive(true);
             }
 		}
 	}
@@ -57,13 +57,13 @@ public class PauseScene : MonoBehaviour
 	public void SetExitUI(GameObject obj)
     {
 		exitUI = obj;
-		addES.SetActive(false);
+		//addES.SetActive(false);
 
 	}
 
 	public void SetSettingUI(GameObject obj)
     {
 		settingUI = obj;
-		addES.SetActive(false);
+		//addES.SetActive(false);
 	}
 }

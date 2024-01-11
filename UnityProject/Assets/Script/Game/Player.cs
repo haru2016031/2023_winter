@@ -186,6 +186,14 @@ public class Player : MonoBehaviour
         }
     }
 
+    void OnCollisionEnter(Collision collision)
+    {
+        if(collision.other.CompareTag("Ground"))
+        {
+
+        }
+    }
+
     void Dead()
     {
         //高さが一定より下がるまたはRキーを押すことでプレイヤーリスポーン
