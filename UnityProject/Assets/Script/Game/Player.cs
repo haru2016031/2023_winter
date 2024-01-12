@@ -253,14 +253,15 @@ public class Player : MonoBehaviour
             // プレイヤーの進行方向に力を加えて吹っ飛ばす
             //Debug.Log(pRigid.velocity);
             //吹き飛ばす方向を求める(触れたものからプレイヤーの方向)
-            Vector3 toVec = GetAngleVec(gameObject,collision.gameObject);
+            Vector3 toVec = GetAngleVec(collision.gameObject, gameObject);
 
             //Y方向を足す
-            toVec = toVec + new Vector3(0, pushHeight, 0);
+            //toVec = toVec + new Vector3(0, pushHeight, 0);
             pRigid.velocity = Vector3.zero;
 
             //ふきとべええ
-            pRigid.AddForce(toVec * pushForce, ForceMode.Impulse); Vector3 pushDirection = -pRigid.velocity; // プレイヤーの速度ベクトルの逆方向
+            pRigid.AddForce(toVec * pushForce, ForceMode.Impulse); 
+            Vector3 pushDirection = -pRigid.velocity; // プレイヤーの速度ベクトルの逆方向
             //Debug.Log(toVec);
             //pushDirection.x = 0.6f;
             //pRigid.velocity = Vector3.zero;
