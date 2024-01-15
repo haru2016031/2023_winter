@@ -77,7 +77,7 @@ public class MoveObject : MonoBehaviour
                 UpdateBeamLength(beamLength);
 
                 //掴んでるオブジェクトの固定処理
-                FreezeObject();
+                //FreezeObject();
             }
             else
             {

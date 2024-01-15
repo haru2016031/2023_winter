@@ -11,7 +11,6 @@ public class Spawner : MonoBehaviour
     public Vector3 spawnRange = new Vector3(0f, 0f, 2.5f);
     private float elapsedTime = 0f;     //経過時間
     private Collider spawnAreaCollider; //生成範囲のコライダー
-    private Vector3 oldPoint = Vector3.zero;
     private Vector3 point = Vector3.zero;
     private bool reverseFlag;
     [SerializeField]
@@ -24,7 +23,7 @@ public class Spawner : MonoBehaviour
        
             Bounds colliderBounds = spawnAreaCollider.bounds;
         point = colliderBounds.center;
-        point.z = spawnAreaCollider.bounds.max.z;
+        point.z = spawnAreaCollider.bounds.max.z + pointIntervel/2;
         if (spawnAreaCollider == null)
         {
             Debug.LogError("Colliderがアタッチされていない");
@@ -54,16 +53,8 @@ public class Spawner : MonoBehaviour
             // Collider内のランダムな位置を計算
             Vector3 spawnPosition = RandomPointInCollider(spawnAreaCollider);
 
-            // ランダムな角度を生成
-            Quaternion spawnRotation = Quaternion.Euler(
-                Random.Range(0f, 360f),
-                Random.Range(0f, 360f),
-                Random.Range(0f, 360f)
-            );
-
             // Prefabを生成
             Instantiate(prefabToSpawn, spawnPosition, Quaternion.Euler(0f,90f,0f));
-            //Debug.Log(spawnPosition);
         }
     }
 
