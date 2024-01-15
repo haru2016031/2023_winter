@@ -44,7 +44,7 @@ public class MoveObject : MonoBehaviour
             {
                 GameObject hitObject = hit.transform.gameObject;
 
-                if (Input.GetMouseButtonDown(1))
+                if (Input.GetButtonDown("Fire1"))
                 {
                     if (hitObject.CompareTag(holdTag))
                     {
@@ -57,7 +57,7 @@ public class MoveObject : MonoBehaviour
                 }
             }
 
-            if (Input.GetMouseButtonUp(1))
+            if (Input.GetButtonUp("Fire1"))
             {
                 // マウスボタンを離したらビームを消す
                 isDrag = false;
@@ -77,7 +77,7 @@ public class MoveObject : MonoBehaviour
                 UpdateBeamLength(beamLength);
 
                 //掴んでるオブジェクトの固定処理
-                FreezeObject();
+                //FreezeObject();
             }
             else
             {
@@ -103,6 +103,17 @@ public class MoveObject : MonoBehaviour
         // オブジェクトをマウスの位置に移動させ、ビームを更新
         Vector3 mousePos = Input.mousePosition;
         objectDepth += Input.GetAxis("Mouse ScrollWheel") * 5.0f;
+
+        if (Input.GetButtonDown("Scrool L1"))
+        {
+            objectDepth += 5.0f;
+        }
+
+        if (Input.GetButtonDown("Scrool R1"))
+        {
+            objectDepth -= 5.0f;
+        }
+
         mousePos.z = objectDepth;
         var targetPosition = Camera.main.ScreenToWorldPoint(mousePos);
 
@@ -133,7 +144,7 @@ public class MoveObject : MonoBehaviour
 
     void FreezeObject()
     {
-        if(Input.GetMouseButtonDown(0))
+        if(Input.GetButtonDown("Fire2"))
         {
 
             isFreeze = !isFreeze;
