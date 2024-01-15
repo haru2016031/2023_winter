@@ -7,18 +7,24 @@ public class Spawner : MonoBehaviour
 
     public GameObject prefabToSpawn;    //生成したいprefab
     public float spawnInterval = 2f;    //生成間隔
-    public int SpawnCnt = 2;            //同時生成個数
+    public int SpawnCnt = 1;            //同時生成個数
     public Vector3 spawnRange = new Vector3(0f, 0f, 2.5f);
     private float elapsedTime = 0f;     //経過時間
     private Collider spawnAreaCollider; //生成範囲のコライダー
-    private Vector3 oldRandPoint = Vector3.zero;
-    private Vector3 randomPoint = Vector3.zero;
+    private Vector3 oldPoint = Vector3.zero;
+    private Vector3 point = Vector3.zero;
+    private bool reverseFlag;
+    [SerializeField]
+    private float pointIntervel = 5.0f;
 
     void Start()
     {
         // Colliderを取得
         spawnAreaCollider = GetComponent<Collider>();
-
+       
+            Bounds colliderBounds = spawnAreaCollider.bounds;
+        point = colliderBounds.center;
+        point.z = spawnAreaCollider.bounds.max.z;
         if (spawnAreaCollider == null)
         {
             Debug.LogError("Colliderがアタッチされていない");
@@ -63,16 +69,27 @@ public class Spawner : MonoBehaviour
 
     Vector3 RandomPointInCollider(Collider collider)
     {
-        while(Mathf.Abs( oldRandPoint.z - randomPoint.z) < spawnRange.z)
+        //reverceFlagの判定
+        if (reverseFlag)
         {
-            oldRandPoint = randomPoint;
-            // Collider内のランダムな座標を計算
-            randomPoint = new Vector3(
-                Random.Range(collider.bounds.min.x, collider.bounds.max.x),
-                Random.Range(collider.bounds.min.y, collider.bounds.max.y),
-                Random.Range(collider.bounds.min.z, collider.bounds.max.z)
-            );
+            
+            //minからmax
+            point.z += pointIntervel;
+            if(point.z >= collider.bounds.max.z - pointIntervel)
+            {
+                reverseFlag = !reverseFlag;
+            }
         }
-        return randomPoint;
+        else
+        {
+            //maxからmin
+            point.z -= pointIntervel;
+            if(point.z <= collider.bounds.min.z + pointIntervel)
+            {
+                reverseFlag = !reverseFlag;
+            }
+        }
+
+        return point;
     }
 }
