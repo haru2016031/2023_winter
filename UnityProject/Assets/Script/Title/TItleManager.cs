@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class TitleManager : MonoBehaviour
 {
@@ -9,6 +10,10 @@ public class TitleManager : MonoBehaviour
     private Animator playerAnim;
     public AudioClip playeVoice;
     AudioSource audioSource;
+    public Animator transitionAnimator;
+    [SerializeField]
+    private Image Image;
+
     void Start()
     {
         player = GameObject.Find("Player");
@@ -32,6 +37,16 @@ public class TitleManager : MonoBehaviour
 
     void LoadScene()
     {
+        StartCoroutine(Transition());
+
         SceneManager.LoadScene(1);
     }
+    IEnumerator Transition()
+    {
+        Image.enabled = true;
+        transitionAnimator.SetTrigger("Start"); // フェードインアニメーションのトリガーをセット
+        yield return new WaitForSeconds(1);    // フェードインアニメーションの時間待ち
+        SceneManager.LoadScene(1);     // Sceneをロード
+    }
+
 }
