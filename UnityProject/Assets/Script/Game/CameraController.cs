@@ -53,8 +53,8 @@ public class CameraController : MonoBehaviour
     {
 
         // ƒJƒƒ‰‚Ì‰ñ“]‚ğ§ŒÀ
-        float horizontalInput = Input.GetAxis("Mouse X");
-        float verticalInput = Input.GetAxis("Mouse Y");
+        float horizontalInput = Input.GetAxis("CameraRoll X");
+        float verticalInput = Input.GetAxis("CameraRoll Y");
 
         currentX += horizontalInput * rotationSpeed;
         currentY += -verticalInput * rotationSpeed;

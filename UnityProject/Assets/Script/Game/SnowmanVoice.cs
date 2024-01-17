@@ -14,6 +14,18 @@ public class SnowmanVoice : MonoBehaviour
         audioSource.volume = 0.3f;
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.other.CompareTag("Player"))
+        {
+            if (!isCollied)
+            {
+                audioSource.PlayOneShot(snowManVoice);
+                isCollied = true;
+            }
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
