@@ -12,13 +12,16 @@ public class TitleManager : MonoBehaviour
     AudioSource audioSource;
     public Animator transitionAnimator;
     [SerializeField]
-    private Image Image;
+    private Image image;
+    [SerializeField]
+    private float delayTime = 1.5f;
 
     void Start()
     {
         player = GameObject.Find("Player");
         playerAnim = player.GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
+
     }
 
     void Update()
@@ -31,7 +34,7 @@ public class TitleManager : MonoBehaviour
             // シーンを遷移する
             playerAnim.enabled = false;
 
-            Invoke("LoadScene", 1.5f);
+            Invoke("LoadScene", delayTime);
         }
     }
 
@@ -39,13 +42,12 @@ public class TitleManager : MonoBehaviour
     {
         StartCoroutine(Transition());
 
-        SceneManager.LoadScene(1);
     }
     IEnumerator Transition()
     {
-        Image.enabled = true;
-        transitionAnimator.SetTrigger("Start"); // フェードインアニメーションのトリガーをセット
-        yield return new WaitForSeconds(1);    // フェードインアニメーションの時間待ち
+        image.enabled = true;
+        transitionAnimator.SetTrigger("Fade"); // フェードインアニメーションのトリガーをセット
+        yield return new WaitForSeconds(delayTime);    // フェードインアニメーションの時間待ち
         SceneManager.LoadScene(1);     // Sceneをロード
     }
 

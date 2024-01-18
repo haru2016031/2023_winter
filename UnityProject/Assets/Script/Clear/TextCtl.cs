@@ -37,15 +37,15 @@ public class TextCtl : MonoBehaviour
 
             }
             StartCoroutine(EnableClearTime(1.0f));
-            if (clearTimeText.enabled == true)
-            {
+            //if (clearTimeText.enabled == true)
+/*            {
                 changeSceneTime += Time.deltaTime;
                 if (changeSceneTime >= 3.0f)
                 {
-                    SceneManager.LoadScene("TitleScene");
+                    //SceneManager.LoadScene("TitleScene");
                 }
             }
-        }
+*/        }
     }
 
     IEnumerator EnableClearTime(float delay)
