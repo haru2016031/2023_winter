@@ -42,7 +42,7 @@ public class ClearManager: MonoBehaviour
     IEnumerator Transition()
     {
         image.enabled = true;
-        transitionAnimator.SetTrigger("Fade"); // フェードインアニメーションのトリガーをセット
+        transitionAnimator.SetTrigger("FadeOut"); // フェードインアニメーションのトリガーをセット
         yield return new WaitForSeconds(delayTime);    // フェードインアニメーションの時間待ち
         SceneManager.LoadScene(0);     // Sceneをロード
 

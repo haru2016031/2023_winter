@@ -10,9 +10,12 @@ public class TitleManager : MonoBehaviour
     private Animator playerAnim;
     public AudioClip playeVoice;
     AudioSource audioSource;
-    public Animator transitionAnimator;
+    public Animator fadeInAnimator;
+    public Animator fadeOutAnimator;
     [SerializeField]
-    private Image image;
+    private Image fadeOut;
+    [SerializeField]
+    private Image fadeIn;
     [SerializeField]
     private float delayTime = 1.5f;
 
@@ -21,6 +24,8 @@ public class TitleManager : MonoBehaviour
         player = GameObject.Find("Player");
         playerAnim = player.GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
+        fadeIn.enabled = true;
+        fadeInAnimator.SetTrigger("FadeIn"); // フェードインアニメーションのトリガーをセット
 
     }
 
@@ -45,8 +50,8 @@ public class TitleManager : MonoBehaviour
     }
     IEnumerator Transition()
     {
-        image.enabled = true;
-        transitionAnimator.SetTrigger("Fade"); // フェードインアニメーションのトリガーをセット
+        fadeOut.enabled = true;
+        fadeOutAnimator.SetTrigger("FadeOut"); // フェードインアニメーションのトリガーをセット
         yield return new WaitForSeconds(delayTime);    // フェードインアニメーションの時間待ち
         SceneManager.LoadScene(1);     // Sceneをロード
     }
