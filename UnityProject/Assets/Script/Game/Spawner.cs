@@ -8,7 +8,7 @@ public class Spawner : MonoBehaviour
     public GameObject prefabToSpawn;    //生成したいprefab
     public float spawnInterval = 2f;    //生成間隔
     public int SpawnCnt = 1;            //同時生成個数
-    public Vector3 spawnRange = new Vector3(0f, 0f, 2.5f);
+    public Vector3 spawnangle = Vector3.zero;
     private float elapsedTime = 0f;     //経過時間
     private Collider spawnAreaCollider; //生成範囲のコライダー
     private Vector3 point = Vector3.zero;
@@ -54,7 +54,7 @@ public class Spawner : MonoBehaviour
             Vector3 spawnPosition = RandomPointInCollider(spawnAreaCollider);
 
             // Prefabを生成
-            Instantiate(prefabToSpawn, spawnPosition, Quaternion.Euler(0f,90f,0f));
+            Instantiate(prefabToSpawn, spawnPosition, Quaternion.Euler(spawnangle));
         }
     }
 

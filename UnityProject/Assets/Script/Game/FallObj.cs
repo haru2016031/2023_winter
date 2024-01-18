@@ -10,20 +10,29 @@ public class FallObj : MonoBehaviour
     private Vector3 pos;
     private Quaternion rota;
     [SerializeField]
-    private float delayTime = 2.0f;
-    public float moveTime = 2.0f;    // à⁄ìÆÇ…Ç©Ç©ÇÈéûä‘
+    private float delayTime = 0f;
+    [SerializeField]
+    private bool respawnFlag = false;
+    public float moveTime = 7.0f;    // à⁄ìÆÇ…Ç©Ç©ÇÈéûä‘
 
     public AudioClip respowanSE;
     AudioSource audioSource;
+    private Vector3 initPos;
 
     // Start is called before the first frame update
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
         audioSource.volume = 0.5f;
-  
+        initPos = transform.position;
+        Init();
+    }
+
+    private void Init()
+    {
         //ï®óùââéZãëî€
-        Invoke("ReturnToInitialPosition", delayTime);
+        gameObject.SetActive(false);
+        Invoke("MoveObject", delayTime);
 
     }
 
@@ -41,6 +50,13 @@ public class FallObj : MonoBehaviour
 
     }
 
+    void MoveObject()
+    {
+        gameObject.SetActive(true);
+        EffectInit();
+        Invoke("ReturnToInitialPosition", moveTime);
+    }
+
 
 
     void ReturnToInitialPosition()
@@ -53,6 +69,14 @@ public class FallObj : MonoBehaviour
         }
 
         // å≥ÇÃà íuÇ…ñﬂÇÈ
-        Destroy(gameObject);
+        if (respawnFlag)
+        {
+            Init();
+            transform.position = initPos;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 }
