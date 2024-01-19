@@ -24,7 +24,6 @@ public class Player : MonoBehaviour
     private float lastCollisionTime; // ÅŒã‚É”»’è‚ğæ‚Á‚½ŠÔƒŠƒK[‰ñ”
     private float lastYpos;
     private bool isFall = true;
-
     // se
     public AudioClip jumpSE;
     public AudioClip fallVoiceSE;
@@ -32,6 +31,8 @@ public class Player : MonoBehaviour
     public AudioSource jumpSource;
     public AudioSource fallSource;
     public AudioSource landingSource;
+
+
 
     void Start()
     {
