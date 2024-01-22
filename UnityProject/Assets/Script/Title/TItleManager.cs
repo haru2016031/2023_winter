@@ -56,7 +56,7 @@ public class TitleManager : MonoBehaviour
         SceneManager.LoadScene(1);     // Sceneをロード
     }
 
-    void ExitGame()
+    public void ExitGame()
     {
         // ゲームを終了する（エディタ内での実行時には影響なし）
         #if UNITY_EDITOR
