@@ -9,10 +9,6 @@ public class Cleartime : MonoBehaviour
     void Start()
     {
         timer = FindObjectOfType<Timer>();
-    }
-
-    void Update()
-    {
         if (timer != null && clearTimeText != null)
         {
             float time = timer.GetTimer();
@@ -21,5 +17,6 @@ public class Cleartime : MonoBehaviour
             timer.StopTimer();
             clearTimeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
         }
-    } 
+
+    }
 }

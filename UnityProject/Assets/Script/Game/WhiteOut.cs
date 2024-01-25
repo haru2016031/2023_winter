@@ -12,6 +12,7 @@ public class WhiteOut : MonoBehaviour
     public Canvas canvas;
     private float time;
     private bool whiteOutFlag;      //ホワイトアウトの開始フラグ
+    private Timer timer;
 
     private void Start()
     {
@@ -29,7 +30,9 @@ public class WhiteOut : MonoBehaviour
             color.a = 0f;
             whitePanel.color = color;
         }
+        timer = FindObjectOfType<Timer>();
 
+        timer.Init();
         whiteOutFlag = false;
     }
 

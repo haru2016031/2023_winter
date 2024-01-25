@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
-
+    public int retryCnt = 0;
     public Text timerText;
     public float timer;
     private static Timer instance;
@@ -35,6 +35,8 @@ public class Timer : MonoBehaviour
     public void Init()
     {
         timer = 0;
+        retryCnt = 0;
+        StartTimer();
     }
 
     public void Update()
@@ -57,8 +59,24 @@ public class Timer : MonoBehaviour
         return timer;
     }
 
+    public void StartTimer()
+    {
+        timerRunning = true;
+    }
+
     public void StopTimer()
     {
         timerRunning = false;
+    }
+
+    public void AddRetryCnt()
+    {
+        retryCnt++;
+        Debug.Log(retryCnt);
+    }
+
+    public int GetRetryCnt()
+    {
+        return retryCnt;
     }
 }

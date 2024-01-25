@@ -24,6 +24,8 @@ public class Player : MonoBehaviour
     private float lastCollisionTime; // 最後に判定を取った時間リガー回数
     private float lastYpos;
     private bool isFall = true;
+    private Timer timer;
+
     // se
     public AudioClip jumpSE;
     public AudioClip fallVoiceSE;
@@ -45,6 +47,8 @@ public class Player : MonoBehaviour
         jumpSource.volume = 0.5f;
         fallSource.volume = 0.5f;
         landingSource.volume = 0.5f;
+        timer = FindObjectOfType<Timer>();
+
     }
 
     // Update is called once per frame
@@ -197,7 +201,6 @@ public class Player : MonoBehaviour
             {
                 isFall = true;
                 fallSource.PlayOneShot(fallVoiceSE);
-                Debug.Log("落下");
             }
         }
         else
@@ -207,7 +210,6 @@ public class Player : MonoBehaviour
                 isFall = false;
                 landingSource.PlayOneShot(landingSE);
                 fallSource.Stop();
-                Debug.Log("着地");
             }
         }
 
@@ -222,6 +224,7 @@ public class Player : MonoBehaviour
         {
             pTrans.position = checkPPos;
             pRigid.velocity = Vector3.zero;
+            timer.GetComponent<Timer>().AddRetryCnt();
         }
     }
 
@@ -247,10 +250,6 @@ public class Player : MonoBehaviour
             //ふきとべええ
             pRigid.AddForce(toVec * pushForce, ForceMode.Impulse); 
             Vector3 pushDirection = -pRigid.velocity; // プレイヤーの速度ベクトルの逆方向
-            //Debug.Log(toVec);
-            //pushDirection.x = 0.6f;
-            //pRigid.velocity = Vector3.zero;
-            //pRigid.AddForce(pushDirection * pushForce, ForceMode.Impulse);
         }
     }
 
@@ -259,9 +258,7 @@ public class Player : MonoBehaviour
         //高さの概念を入れないベクトルを作る
         Vector3 fromVec = new Vector3(_from.transform.position.x, 0, _from.transform.position.z);
         Vector3 toVec = new Vector3(_to.transform.position.x, 0, _to.transform.position.z);
-        Debug.Log((fromVec, toVec));
         var n = Vector3.Normalize(toVec - fromVec);
-        Debug.Log(n);
         return n;
     }
 };

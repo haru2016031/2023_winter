@@ -23,7 +23,6 @@ public class MoveArea : MonoBehaviour
     {
         // オブジェクトの現在の位置から初期位置までの距離を計算
         float distanceToInitialPosition = Vector3.Distance(transform.position, initialPos);
-        Debug.Log(distanceToInitialPosition);
         // 距離がactivationRangeより小さい場合はRigidbodyを有効にし、大きい場合は無効にする
         if (distanceToInitialPosition <= activationRange)
         {
