@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CameraController : MonoBehaviour
 {
@@ -19,6 +20,25 @@ public class CameraController : MonoBehaviour
 
     private float currentX = 0;
     private float currentY = 0;
+
+    private PlayerAction playerAction;
+    private InputAction cameraRoll;
+    private void OnEnable()
+    {
+        playerAction.Enable();
+    }
+
+    private void OnDisable()
+    {
+        playerAction.Disable();
+    }
+    private void Awake()
+    {
+        playerAction = new PlayerAction();
+        cameraRoll = playerAction.Player.CameraRoll;
+        cameraRoll.performed += ctx => RotateCamera(ctx.ReadValue<Vector3>());
+    }
+
 
     // Start is called before the first frame update
     void Start()
@@ -44,20 +64,12 @@ public class CameraController : MonoBehaviour
 
         //MoveCamera();
 
-        //rotateCamera‚ÌŒÄ‚Ño‚µ
-        RotateCamera();
-
     }
 
-    private void RotateCamera()
+    private void RotateCamera(Vector3 input)
     {
-
-        // ƒJƒƒ‰‚Ì‰ñ“]‚ğ§ŒÀ
-        float horizontalInput = Input.GetAxis("CameraRoll X");
-        float verticalInput = Input.GetAxis("CameraRoll Y");
-
-        currentX += horizontalInput * rotationSpeed;
-        currentY += -verticalInput * rotationSpeed;
+        currentX += input.x * rotationSpeed;
+        currentY += -input.y * rotationSpeed;
         currentY = Mathf.Clamp(currentY, minXAngle, maxXAngle);
 
 
