@@ -21,25 +21,6 @@ public class CameraController : MonoBehaviour
     private float currentX = 0;
     private float currentY = 0;
 
-    private PlayerAction playerAction;
-    private InputAction cameraRoll;
-    private void OnEnable()
-    {
-        playerAction.Enable();
-    }
-
-    private void OnDisable()
-    {
-        playerAction.Disable();
-    }
-    private void Awake()
-    {
-        playerAction = new PlayerAction();
-        cameraRoll = playerAction.Player.CameraRoll;
-        cameraRoll.performed += ctx => RotateCamera(ctx.ReadValue<Vector3>());
-    }
-
-
     // Start is called before the first frame update
     void Start()
     {
@@ -64,25 +45,33 @@ public class CameraController : MonoBehaviour
 
         //MoveCamera();
 
+        //rotateCameraの呼び出し
+        RotateCamera();
+
     }
 
-    private void RotateCamera(Vector3 input)
+    private void RotateCamera()
     {
-        currentX += input.x * rotationSpeed;
-        currentY += -input.y * rotationSpeed;
+
+        // カメラの回転を制限
+        float horizontalInput = Input.GetAxis("CameraRoll X");
+        float verticalInput = Input.GetAxis("CameraRoll Y");
+
+        currentX += horizontalInput * rotationSpeed;
+        currentY += -verticalInput * rotationSpeed;
         currentY = Mathf.Clamp(currentY, minXAngle, maxXAngle);
 
 
         // カメラの位置を設定
         Quaternion rotation = Quaternion.Euler(currentY, currentX, 0);
         mainCamera.transform.position = target.position + rotation * offset;
-        Vector3 t = new Vector3( target.position.x, target.position.y+2, target.position.z );
+        Vector3 t = new Vector3(target.position.x, target.position.y + 2, target.position.z);
         mainCamera.transform.LookAt(t);
     }
 
     private void MoveCamera()
     {
-       
+
         //カメラはプレイヤーと同じ位置にする
         mainCamera.transform.position += playerObject.transform.position - oldTrans;
         oldTrans = playerObject.transform.position;
@@ -93,3 +82,4 @@ public class CameraController : MonoBehaviour
         rotationSpeed = value;
     }
 }
+

@@ -9,14 +9,17 @@ public class TextCtl : MonoBehaviour
     public Text[] textList;
     public GameObject player;
     public AudioClip audioClip;
+    public AudioClip bgmClip;
     public bool sceneFlag = false;
     private Animator animator;
     private AudioSource audioSource;
+    private AudioSource bgm;
     [SerializeField]
     private string viewTextAnim = "WakeUp";
     [SerializeField]
     private float delayTime = 1.0f;
     private bool hasAnimationEnded = false;
+
 
     void Start()
     {

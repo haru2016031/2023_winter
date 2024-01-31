@@ -22,9 +22,12 @@ public class MoveObject : MonoBehaviour
     private float ultRange = 20.0f;     //ウルハンの使用範囲
     private Vector3 oldMousePos;
 
+    AudioSource audioSource;
+    public AudioClip audioClip;
+
     void Start()
     {
-
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -93,6 +96,7 @@ public class MoveObject : MonoBehaviour
         Vector3 direction = selectObject.transform.position - playerTrans.position;
         DestroyBeam(); // 既存のビームを削除
         beamInstance = Instantiate(beamPrefab, spawnPosition, Quaternion.LookRotation(direction));
+        audioSource.PlayOneShot(audioClip);
     }
 
     void MoveObjectWithRigidbody()
